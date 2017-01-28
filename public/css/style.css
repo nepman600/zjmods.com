@@ -1,0 +1,45 @@
+.lang-buttons button, .download button, .extend button {
+    background: white;
+    border: 1px solid #000;
+}
+
+.lang-buttons button {
+    padding: 3px 50px;
+}
+
+.download {
+    margin: 50px 0 10px 0;
+}
+
+.download button, .extend button {
+    font-size: 36px;
+}
+
+.border1 {
+    border: 1px solid #000;
+}
+
+.desc {
+
+}
+
+.extend button {
+    margin: 150px auto 20px auto;
+}
+
+.donate input{
+    width: 38px;
+    margin-top: 4px;
+    padding: 0 3pt;
+    height: 36px;
+    border: 1px solid rgb(182, 211, 234);
+    border-radius: 5px;
+    background: linear-gradient(to bottom, rgba(230,230,230,1) 1%,rgba(255,255,255,1) 12%);
+    color: #333333;
+    font-size: 16pt;
+    margin-right: 5px;
+    margin: 4px 0 0;
+    line-height: normal;
+    box-sizing: border-box;
+
+}

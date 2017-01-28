@@ -1,0 +1,35 @@
+doctype
+head
+    title=page
+    meta(charset='utf-8')
+    link(rel='stylesheet' href='/css/bootstrap.css')
+    //link(rel='stylesheet' href='../public/css/style.css')
+body
+    nav(class="navbar-inverse navbar", role="navigation")
+        div.container
+            div.navbar-header
+                button(type="button", class="navbar-toggle", data-toggle="collapse" data-target="#w1-collapse")
+                    span.sr-only Toggle navigation
+                    span.icon-bar
+                    span.icon-bar
+                    span.icon-bar
+                a(class="navbar-brand", href="http://zjmods.com/") zjmods.com
+            div(id="w1-collapse", class="collapse navbar-collapse")
+                ul(id="w2", class="navbar-nav navbar-right nav")
+                    li
+                        a(href="/admin") Home
+    div.container-fluid
+        div.row
+            div.col-lg-3
+                div(class="panel panel-default")
+                    div.panel-heading
+                        h3.panel-title Меню
+                div.panel-body
+                    ul(class="nav nav-pills nav-stacked")
+                        li.adminka-submenu
+                            a(href="/admin/users") Пользователи
+                            a(href="/admin/settingg") Настройки
+                            a(href="/admin/clients") Клиенты
+            div.col-lg-9
+                h1=page
+                block content
