@@ -1,0 +1,41 @@
+extends ../backend
+
+block content
+    h1 Settings
+
+    - if(err)
+        div(class="alert alert-danger")
+            strong=err
+
+    form(action="/admin/settings/save" method="POST")
+        div.form-group
+            label(class="control-label" for="download-link") Download Link
+            input(id="download-link" class="form-control" name="download_link" required value=settings.download_link)
+
+        div.form-group
+            label(class="control-label" for="period") Period(days)
+            input(type="text" id="period" class="form-control" name="period" required value=settings.period)
+
+        div.form-group
+            label(class="control-label" for="secret") Secret
+            input(type="text" id="secret" class="form-control" name="secret" maxlength="50" required value=settings.secret)
+
+        div.form-group
+            label(class="control-label" for="help_url") Узнать больше
+            input(type="text" id="help_url" class="form-control" name="help_url" value=settings.help_url)
+
+        div.form-group
+            label(class="control-label" for="version") Version
+            input(type="text" id="version" class="form-control" name="version" maxlength="50" value=settings.version)
+
+        div.form-group
+            label(class="control-label" for="color") Color
+            input(type="text" id="color" class="form-control" name="color" maxlength="50" value=settings.color)
+
+        div.form-group
+            label(class="control-label" for="offer_url") Offer_url
+            input(type="text" id="offer_url" class="form-control" name="offer_url" value=settings.offer_url)
+
+
+        div.form-group
+            button(type="submit" class="btn btn-primary" name="button") Save

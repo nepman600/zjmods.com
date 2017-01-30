@@ -6,6 +6,7 @@ var bodyParser  = require('body-parser')
 var auth = require('./auth')
 var routes = require('./routes')
 var routesUser = require('./routes/user')
+var routesSettings = require('./routes/setting')
 
 app.disable('x-powered-by')
 app.set('view engine', 'pug')
@@ -29,6 +30,8 @@ app.get('/admin/users/edit/:id', routesUser.editForm)
 app.post('/admin/users/edit', routesUser.edit)
 app.delete('/admin/users/delete/:id', routesUser.delete)
 
+app.get('/admin/settings', routesSettings.form)
+app.post('/admin/settings/save', routesSettings.save)
 
 app.use(function (err, req, res, next) {
     res.status(err.status || 500)
