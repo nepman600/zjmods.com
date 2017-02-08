@@ -12,7 +12,7 @@ block content
             label(class="control-label" for="download-link") Download Link
             input(id="download-link" class="form-control" name="download_link" required value=settings.download_link)
 
-        div.form-group
+        //div.form-group
             label(class="control-label" for="period") Period(days)
             input(type="text" id="period" class="form-control" name="period" required value=settings.period)
 
@@ -33,9 +33,16 @@ block content
             input(type="text" id="color" class="form-control" name="color" maxlength="50" value=settings.color)
 
         div.form-group
-            label(class="control-label" for="offer_url") Offer_url
-            input(type="text" id="offer_url" class="form-control" name="offer_url" value=settings.offer_url)
+            label(class="control-label" for="period1") Period1
+            input(type="text" id="period1" class="form-control" name="period1" value=settings.period1)
 
+        div.form-group
+            label(class="control-label" for="period2") Period2
+            input(type="text" id="period2" class="form-control" name="period2" value=settings.period2)
+
+        div.form-group
+            label(class="control-label" for="period3") Period3
+            input(type="text" id="period3" class="form-control" name="period3" value=settings.period3)
 
         div.form-group
             button(type="submit" class="btn btn-primary" name="button") Save

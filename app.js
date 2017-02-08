@@ -16,8 +16,13 @@ app.use(bodyParser.json())
 app.use(express.static(__dirname + '/public'))
 
 //routers
+var Settings = require('./models/setting').Setting
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/index.html'));
+    //res.sendFile(path.join(__dirname + '/index.html'))
+    Settings.findOne({}, function (err, settings, next) {
+        if (err) return next(err)
+        res.render('frontend', {settings: settings})
+    })
 });
 
 app.use('^/admin', auth)

@@ -21,10 +21,19 @@ var schema = new mongoose.Schema({
     version: {
         type: String
     },
-    period: {
+    period1: {
+        type: Number,
+        require: true
+    },
+    period2: {
+        type: Number,
+        require: true
+    },
+    period3: {
         type: Number,
         require: true
     }
 })
+
 
 exports.Setting = mongoose.model('Setting', schema)

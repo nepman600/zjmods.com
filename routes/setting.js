@@ -19,7 +19,9 @@ exports.save = function (req, res, next) {
         settings.offer_url = req.body.offer_url
         settings.color = req.body.color
         settings.version = req.body.version
-        settings.period = req.body.period
+        settings.period1 = req.body.period1
+        settings.period2 = req.body.period2
+        settings.period3 = req.body.period3
 
         settings.save(function (err, settings, affected, next) {
             if (err) return next(err)

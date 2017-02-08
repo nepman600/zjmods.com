@@ -1,3 +1,10 @@
+body {
+    /*background: url(../img/fon.jpg) 100% 100% no-repeat;*/
+    background: url(../img/fon.jpg);
+    background-size: cover;
+    background-position: center;
+    color: #ddd;
+}
 .lang-buttons button, .download button, .extend button {
     background: white;
     border: 1px solid #000;
@@ -41,5 +48,4 @@
     margin: 4px 0 0;
     line-height: normal;
     box-sizing: border-box;
-
 }

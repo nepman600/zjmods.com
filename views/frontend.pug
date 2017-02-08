@@ -1,9 +1,101 @@
 doctype
+html(lang="ru")
 head
-    title='zjmods.com'
     meta(charset='utf-8')
-    link(rel='stylesheet' href='../public/css/style.css')
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    title='zjmods.com'
+    link(rel='stylesheet' href='/css/bootstrap.css')
+    link(rel='stylesheet' href='/css/style.css')
+
 body
-    .container
-        h1=page
-        p=content
+    div(class="conteiner page")
+        div(class="text-center lang-buttons")
+            button RU
+            button EN
+
+        div.row
+            div(class="banner-place border1 text-center col-md-3 col-lg-3")
+                h3 Место под будущие банеры
+            div(class="text-center col-md-6 col-lg-6")
+                h3 Качественные приватные моды
+                h3 ОТ ZORROJAN
+                h3 актуальная БЕСПЛАТНАЯ trial-версия
+
+                div.download
+                    button Скачать!
+                    //button(type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal") Launch demo modal
+
+                div(class="desc border1")
+                    p.
+                        Для продления срока работы модов на сутки, введите ваши данные и пройдите по следующей ссылке и выполните несложное задание. Будьте внимательны! Неверно выполненное задание не будет полезным ни вам, ни нам. Повторно выполненное задание в течение 24 часов то же бесполезно.</p>
+                div.extend
+                    button Продлить!
+
+            div(class="banner-place border1 text-center col-md-3 col-lg-3")
+                h3 Место под будущие банеры
+
+    div(class="conteiner page")
+        div.row
+            div(class="banner-place border1 text-center col-md-3 col-lg-3")
+                h3 Место под будущие банеры
+
+            div(class="text-center col-md-6 col-lg-6")
+                h3 Вы можете оказать разработчику поддержку перечислив произвольную сумму удобным Вам способом:
+                table(border="0" width="100%" class="donate")
+                    tbody
+                        tr
+                            td(valign="top" width="33%")
+                                span(style="font-weight:normal;")
+                                    input(id="w_kassa1" type="radio" name="pay_method" value="w1" checked="checked" style="width: 38px;" onclick="$('#pay_method').val('w1');")
+                                    label(for="w_kassa1") Единая касса
+                                br
+                                font(color="green" size="2") (рекомендуется)
+                                br
+                                img(class="rect2" alt="" src="/img/w1_form.gif" widht="160")
+                            td(valign="top" width="33%")
+                                span(style="font-weight:normal;")
+                                    input(id="MoneyPay_Yandex_Visa" type="radio" name="pay_method" value="yandex" style="width: 38px;" onclick="$('#pay_method').val('yandex');")
+                                    label(for="MoneyPay_Yandex_Visa") Visa/Mastercard
+                                br
+                                img(class="rect2" alt="" src="/img/yandex-pay.jpg")
+                            td(valign="top" width="33%")
+                                span(style="font-weight:normal;")
+                                    input(id="paypal" type="radio" name="pay_method" value="paypal" style="width: 38px;" onclick="$('#pay_method').val('paypal');")
+                                    label(for="paypal") PayPal
+                                br
+                                img(class="rect2" alt="" src="/img/paypal.png" widht="160")
+
+                br
+                br
+                h3 НАШИ ДРУЗЬЯ И ИНФОРМАЦИОННЫЕ ПАРТНЕРЫ
+                div
+                    img(src="/img/banner_4cheat.jpg")
+                br
+                div
+                    img(src="/img/banner_wotspeak.jpg")
+
+            div(class="banner-place border1 text-center col-md-3 col-lg-3")
+                h3 Место под будущие банеры
+
+<!-- Modal -->
+div(class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
+    div(class="modal-dialog" role="document")
+        div.modal-content
+            div.modal-header
+                h3(class="modal-title" id="exampleModalLabel") Ссылка на скачивание
+                //button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+                    span(aria-hidden="true") &times;
+            div.modal-body
+                h4= settings.download_link
+            div.modal-footer
+                button(type="button" class="btn btn-secondary" data-dismiss="modal") Close
+                //button(type="button" class="btn btn-primary") Save changes
+
+script(type='text/javascript' src='/js/liveinternet.js')
+script(type='text/javascript' src='/js/jquery-3.1.1.min.js')
+script(type='text/javascript' src='/js/bootstrap.js')
+script(type='text/javascript' src='/js/js600.js')
+
+
+
