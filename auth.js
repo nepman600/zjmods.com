@@ -4,6 +4,7 @@ var crypto = require('crypto')
 //var e = require('./ext/error')
 
 var auth = function (req, res, next) {
+    //console.log(req)
     function unauthorized(res) {
         res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
         res.sendStatus(401)

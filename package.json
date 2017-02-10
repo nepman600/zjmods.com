@@ -12,7 +12,10 @@
     "basic-auth": "^1.1.0",
     "bluebird": "^3.4.7",
     "body-parser": "^1.16.0",
+    "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
+    "express-fileupload": "0.0.6",
+    "fs": "0.0.1-security",
     "mongoose": "^4.7.7",
     "pug": "^2.0.0-beta6"
   }

@@ -35,5 +35,4 @@ var schema = new mongoose.Schema({
     }
 })
 
-
 exports.Setting = mongoose.model('Setting', schema)

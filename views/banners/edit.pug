@@ -1,0 +1,32 @@
+extends ../backend
+
+block content
+    h1= 'Edit banner #' + banner.sort
+    - if(err)
+        div(class="alert alert-danger")
+            strong=err
+
+    form(action="/admin/banner/edit" method="POST" encType="multipart/form-data" id='bannerForm')
+        //input(type="hidden" name="_method" value="put")
+        input(type="hidden" name="bannerID" value=banner.id)
+        input(type="hidden" name="img_old" value=banner.img)
+
+        div(class="form-group")
+            label(class="control-label" for="img") Image
+            //input(type="file" id="img" class="form-control" name="img" value=banner.img)
+            input(type="file" id="img" class="form-control" name="img")
+        div(class="form-group")
+            label(class="control-label" for="sort") Sort
+            input(type="text" id="sort" class="form-control" name="sort" value=banner.sort required)
+        div(class="form-group")
+            label(class="control-label" for="title") Title
+            input(type="text" id="title" class="form-control" name="title" value=banner.title)
+        div(class="form-group")
+            label(class="control-label" for="link") Link
+            input(type="text" id="link" class="form-control" name="link" value=banner.link)
+        div(class="form-group")
+            label(class="control-label" for="desc") Desc
+            textarea(id="desc" class="form-control" name="desc" rows="4")=banner.desc
+
+        div.form-group
+            button(type="submit" class="btn btn-primary" name="button") Edit

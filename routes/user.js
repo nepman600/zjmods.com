@@ -2,6 +2,7 @@ var User = require('../models/user').User
 var e = require('../ext/error')
 
 exports.list = function (req, res) {
+    //console.log('Cookies: ', req.cookies)
     User.find({}, function (err, users) {
         if (err)
             return console.error(err)

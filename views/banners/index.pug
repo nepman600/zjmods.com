@@ -1,0 +1,38 @@
+extends ../backend
+
+block content
+    h1 Banners
+    p
+        a(class="btn btn-success" href="/admin/banner/create") New banner
+    table(class="table table-striped table-bordered")
+        thead
+            tr
+                th #
+                th img
+                th sort
+                th title
+                th link
+                th desc
+                th &nbsp;
+        tbody
+            - var banners = data;
+            for banner in banners
+                tr
+                    td
+                    td
+                        img(src="../../upload/banners/"+banner.img)
+                    td=banner.sort
+                    td=banner.title
+                    td=banner.link
+                    td=banner.desc
+                    td
+                        a(href="/admin/banner/edit/" + banner.id)
+                            span(class="glyphicon glyphicon-pencil") &nbsp;
+                        a(onclick="delBanner('" + banner.id + "')")
+                             span(class="glyphicon glyphicon-trash")
+
+    script(type='text/javascript' src='/js/backend.js')
+
+
+
+

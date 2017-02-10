@@ -2,18 +2,24 @@ var express = require('express')
 var app = express()
 var path = require('path')
 var bodyParser  = require('body-parser')
+var fileUpload = require('express-fileupload')
+//var cookieParser = require('cookie-parser')
 
 var auth = require('./auth')
 var routes = require('./routes')
 var routesUser = require('./routes/user')
 var routesSettings = require('./routes/setting')
+var routesBanner = require('./routes/banner')
 
 app.disable('x-powered-by')
 app.set('view engine', 'pug')
 
-app.use(bodyParser.urlencoded())
+//app.use(bodyParser.urlencoded())
+app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 app.use(express.static(__dirname + '/public'))
+app.use(fileUpload())
+//app.use(cookieParser())
 
 //routers
 var Settings = require('./models/setting').Setting
@@ -38,6 +44,13 @@ app.delete('/admin/users/delete/:id', routesUser.delete)
 app.get('/admin/settings', routesSettings.form)
 app.post('/admin/settings/save', routesSettings.save)
 
+app.get('/admin/banners', routesBanner.list)
+app.get('/admin/banner/create', routesBanner.createForm)
+app.post('/admin/banner/create', routesBanner.add)
+app.get('/admin/banner/edit/:id', routesBanner.editForm)
+app.post('/admin/banner/edit', routesBanner.edit)
+app.delete('/admin/banner/delete/:id', routesBanner.delete)
+
 app.use(function (err, req, res, next) {
     res.status(err.status || 500)
     res.render('error', {
@@ -47,6 +60,10 @@ app.use(function (err, req, res, next) {
     })
 })
 
+
+/*app.listen(80, function () {
+    console.log('Example app listening on port 80!')
+})*/
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })
