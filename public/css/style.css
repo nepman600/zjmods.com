@@ -1,11 +1,17 @@
-body {
-    /*background: url(../img/fon.jpg) 100% 100% no-repeat;*/
+body.page-main, body.page-extend {
     background: url(../img/fon.jpg);
     background-size: cover;
-    background-position: center;
     color: #ddd;
 }
-.lang-buttons button, .download button, .extend button {
+
+body.page-main {background-position: center;}
+body.page-extend {background-position: inherit;}
+
+/*.border1 {
+    border: 1px solid #000;
+}*/
+
+.lang-buttons button, .download button, .extend a {
     background: white;
     /*border: 1px solid #000;*/
     color: #000;
@@ -19,25 +25,18 @@ body {
     margin: 50px 0 10px 0;
 }
 
-.download button, .extend button {
+.download button, .extend a {
     font-size: 36px;
 }
-
-.border1 {
-    border: 1px solid #000;
-}
-
-.desc {
-
-}
-
-/*.extend button {
-    margin: 150px auto 20px auto;
-}*/
 
 .text-center a {
     color: #fff;
     text-decoration: none;
+}
+
+.extend a {
+    color: #000;
+    padding: 5px;
 }
 
 .donate input{
@@ -54,4 +53,19 @@ body {
     margin: 4px 0 0;
     line-height: normal;
     box-sizing: border-box;
+}
+
+.partners {
+
+}
+
+.partner {
+    float: left;
+    width: 150px;
+    cursor: pointer;
+    margin: 20px;
+}
+
+.partner img {
+    width: 100%;
 }

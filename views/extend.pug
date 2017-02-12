@@ -1,0 +1,30 @@
+doctype
+html(lang="ru")
+head
+    meta(charset='utf-8')
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    title='zjmods.com'
+    link(rel='stylesheet' href='/css/bootstrap.css')
+    link(rel='stylesheet' href='/css/style.css')
+
+body.page-extend
+    div(class="conteiner page")
+        //div(class="text-center lang-buttons")
+            button RU
+            button EN
+
+        div(class="text-center partners")
+            for partner in partners
+                div(class="partner" id=partner.id)
+                    img(src="/upload/partners/" + partner.img)
+
+        div(style="clear:both")
+
+script(type='text/javascript' src='/js/liveinternet.js')
+script(type='text/javascript' src='/js/jquery-3.1.1.min.js')
+script(type='text/javascript' src='/js/bootstrap.js')
+script(type='text/javascript' src='/js/frontend.js')
+
+
+

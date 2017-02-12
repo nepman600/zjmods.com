@@ -15,10 +15,13 @@ exports.list = function (req, res) {
                 id: partners[i]._id,
                 img: partners[i].img,
                 title: partners[i].title,
+                region: partners[i].region,
                 period: partners[i].period,
                 click_limit: partners[i].click_limit,
                 click_real: partners[i].click_real,
-                sort: partners[i].sort
+                sort: partners[i].sort,
+                visible: partners[i].visible,
+                date_visible: partners[i].date_visible
             }
         }
         //console.log(data)
@@ -47,7 +50,8 @@ exports.add = function (req, res, next) {
         title: req.body.title,
         period: req.body.period,
         click_limit: req.body.click_limit,
-        sort: req.body.sort
+        sort: req.body.sort,
+        visible: true
     })
     partner.save(function (err, partner, affected) {
         if(err)
@@ -98,6 +102,7 @@ exports.edit = function (req, res, next) {
         partner.click_limit = req.body.click_limit
         partner.period = req.body.period
         partner.sort = req.body.sort
+
         partner.save(function (err, updatedPartner) {
             if(err) return res.render('partner/edit', {err: 'Ошибка!!!'})
             //if (err) return next(err)

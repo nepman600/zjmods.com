@@ -20,6 +20,13 @@ block content
             label(class="control-label" for="click_limit") Click limit
             input(type="text" id="click_limit" class="form-control" name="click_limit")
 
+        div(class="form-group")
+            label(class="control-label" for="region") Region &nbsp;
+            select(name="region" id="region")
+                option(disabled) Выберите region
+                option(value="ru") RU
+                option(value="en") EN
+
         //- var periods = periods;
         div(class="form-group")
             label(class="control-label" for="period") Period &nbsp;

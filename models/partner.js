@@ -8,6 +8,10 @@ var schema = new mongoose.Schema({
     title: {
         type: String
     },
+    region: {
+        type: String,
+        require: true
+    },
     period: {
         type: Number,
         require: true
@@ -23,6 +27,12 @@ var schema = new mongoose.Schema({
         type: Number,
         require: true,
         unique: true
+    },
+    visible: {
+        type: Boolean
+    },
+    date_visible: {
+        type: Date
     }
 })
 

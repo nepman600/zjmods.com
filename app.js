@@ -30,7 +30,15 @@ app.get('/', function(req, res) {
         if (err) return next(err)
         res.render('frontend', {settings: settings})
     })
-});
+})
+
+var Partners = require('./models/partner').Partner
+app.get('/extend', function(req, res) {
+    Partners.find({"visible": true}, function (err, partners, next) {
+        //if (err) return next(err)
+        res.render('extend', {partners: partners})
+    })
+})
 
 app.use('^/admin', auth)
 
@@ -70,8 +78,21 @@ app.use(function (err, req, res, next) {
 
 
 /*app.listen(80, function () {
-    console.log('Example app listening on port 80!')
+    //console.log('Example app listening on port 80!')
 })*/
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })
+
+//cron
+var scheduler = require('./ext/scheduler')
+var CronJob = require('cron').CronJob
+
+new CronJob('00 00 00 * * *', function() {
+    scheduler.zeroClick()
+}, null, true, 'Europe/Moscow')
+
+/*
+new CronJob('* * * * * *', function() {
+    scheduler.cron2()
+}, null, true, 'Europe/Moscow')*/

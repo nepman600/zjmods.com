@@ -19,6 +19,9 @@ block content
             label(class="control-label" for="title") Title
             input(type="text" id="title" class="form-control" name="title" value=partner.title)
         div(class="form-group")
+            label(class="control-label" for="region") Region
+            input(type="text" id="region" class="form-control" name="region" value=partner.region)
+        div(class="form-group")
             label(class="control-label" for="img") Image
             //input(type="file" id="img" class="form-control" name="img" value=partner.img)
             input(type="file" id="img" class="form-control" name="img")
@@ -28,6 +31,16 @@ block content
         div(class="form-group")
             label(class="control-label" for="click_limit") Click limit
             input(type="text" id="click_limit" class="form-control" name="click_limit" value=partner.click_limit)
+
+        div(class="form-group")
+            label(class="control-label" for="region") Region &nbsp;
+            select(name="region" id="region")
+                option(disabled) Выберите region
+                for region in ['ru', 'en']
+                    if region == partner.region
+                        option(value="" + region selected)= region
+                    else
+                        option(value="" + region)= region
 
         //- var periods = periods;
         div(class="form-group")
