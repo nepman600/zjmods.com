@@ -1,0 +1,32 @@
+extends ../backend
+
+block content
+    h1 Create partner
+    - if(err)
+        div(class="alert alert-danger")
+            strong=err
+
+    form(action="/admin/partner/create" method="POST" encType="multipart/form-data" id='partnerForm')
+        div(class="form-group")
+            label(class="control-label" for="title") Title
+            input(type="text" id="title" class="form-control" name="title")
+        div(class="form-group")
+            label(class="control-label" for="img") Image
+            input(type="file" id="img" class="form-control" name="img" required)
+        div(class="form-group")
+            label(class="control-label" for="sort") Sort
+            input(type="text" id="sort" class="form-control" name="sort" required)
+        div(class="form-group")
+            label(class="control-label" for="click_limit") Click limit
+            input(type="text" id="click_limit" class="form-control" name="click_limit")
+
+        //- var periods = periods;
+        div(class="form-group")
+            label(class="control-label" for="period") Period &nbsp;
+            select(name="period" id="period")
+                //option(disabled) Выберите period
+                for period in periods
+                    option(value=""+period)= period
+
+        div.form-group
+            button(type="submit" class="btn btn-primary" name="button") Create

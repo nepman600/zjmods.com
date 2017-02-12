@@ -1,0 +1,44 @@
+extends ../backend
+
+block content
+
+    -  var partner = data.partner
+    -  var periods = data.periods
+
+    h1= 'Edit partner #' + partner.title
+    - if(err)
+        div(class="alert alert-danger")
+            strong=err
+
+    form(action="/admin/partner/edit" method="POST" encType="multipart/form-data" id='partnerForm')
+        //input(type="hidden" name="_method" value="put")
+        input(type="hidden" name="partnerID" value=partner.id)
+        input(type="hidden" name="img_old" value=partner.img)
+
+        div(class="form-group")
+            label(class="control-label" for="title") Title
+            input(type="text" id="title" class="form-control" name="title" value=partner.title)
+        div(class="form-group")
+            label(class="control-label" for="img") Image
+            //input(type="file" id="img" class="form-control" name="img" value=partner.img)
+            input(type="file" id="img" class="form-control" name="img")
+        div(class="form-group")
+            label(class="control-label" for="sort") Sort
+            input(type="text" id="sort" class="form-control" name="sort" value=partner.sort required)
+        div(class="form-group")
+            label(class="control-label" for="click_limit") Click limit
+            input(type="text" id="click_limit" class="form-control" name="click_limit" value=partner.click_limit)
+
+        //- var periods = periods;
+        div(class="form-group")
+            label(class="control-label" for="period") Period &nbsp;
+            select(name="period" id="period")
+                //option(disabled) Выберите period
+                for period in periods
+                    if period == partner.period
+                        option(value=""+period selected)= period
+                    else
+                        option(value=""+period)= period
+
+        div.form-group
+            button(type="submit" class="btn btn-primary" name="button") Edit

@@ -1,0 +1,40 @@
+extends ../backend
+
+block content
+    h1 Partners
+    p
+        a(class="btn btn-success" href="/admin/partner/create") New partner
+    table(class="table table-striped table-bordered")
+        thead
+            tr
+                th #
+                th title
+                th img
+                th sort
+                th period
+                th click_limit
+                th click_real
+                th &nbsp;
+        tbody
+            - var partners = data;
+            for partner in partners
+                tr
+                    td
+                    td=partner.title
+                    td
+                        img(src="../../upload/partners/"+partner.img)
+                    td=partner.sort
+                    td=partner.period
+                    td=partner.click_limit
+                    td=partner.click_real
+                    td
+                        a(href="/admin/partner/edit/" + partner.id)
+                            span(class="glyphicon glyphicon-pencil") &nbsp;
+                        a(onclick="delPartner('" + partner.id + "')")
+                             span(class="glyphicon glyphicon-trash")
+
+    script(type='text/javascript' src='/js/backend.js')
+
+
+
+

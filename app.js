@@ -10,6 +10,7 @@ var routes = require('./routes')
 var routesUser = require('./routes/user')
 var routesSettings = require('./routes/setting')
 var routesBanner = require('./routes/banner')
+var routesPartner = require('./routes/partner')
 
 app.disable('x-powered-by')
 app.set('view engine', 'pug')
@@ -50,6 +51,13 @@ app.post('/admin/banner/create', routesBanner.add)
 app.get('/admin/banner/edit/:id', routesBanner.editForm)
 app.post('/admin/banner/edit', routesBanner.edit)
 app.delete('/admin/banner/delete/:id', routesBanner.delete)
+
+app.get('/admin/partners', routesPartner.list)
+app.get('/admin/partner/create', routesPartner.createForm)
+app.post('/admin/partner/create', routesPartner.add)
+app.get('/admin/partner/edit/:id', routesPartner.editForm)
+app.post('/admin/partner/edit', routesPartner.edit)
+app.delete('/admin/partner/delete/:id', routesPartner.delete)
 
 app.use(function (err, req, res, next) {
     res.status(err.status || 500)
