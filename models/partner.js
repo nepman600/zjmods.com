@@ -31,8 +31,8 @@ var schema = new mongoose.Schema({
     visible: {
         type: Boolean
     },
-    date_visible: {
-        type: Date
+    link: {
+        type: String
     }
 })
 

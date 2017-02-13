@@ -16,7 +16,7 @@ block content
                 th click_limit
                 th click_real
                 th visible
-                th date_visible
+                th link
                 th &nbsp;
         tbody
             - var partners = data;
@@ -32,7 +32,7 @@ block content
                     td=partner.click_limit
                     td=partner.click_real
                     td=partner.visible
-                    td=partner.date_visible
+                    td=partner.link
                     td
                         a(href="/admin/partner/edit/" + partner.id)
                             span(class="glyphicon glyphicon-pencil") &nbsp;
