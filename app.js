@@ -34,6 +34,14 @@ app.get('/', function(req, res) {
 
 var Partners = require('./models/partner').Partner
 app.get('/extend', function(req, res) {
+    var freegeoip = require('node-freegeoip')
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+
+    //var ip = '80.95.38.251'
+    freegeoip.getLocation(ip, function(err, location) {
+        console.log(location);
+    })
+
     Partners.find({"visible": true}, function (err, partners, next) {
         //if (err) return next(err)
         res.render('extend', {partners: partners})
