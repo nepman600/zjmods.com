@@ -32,7 +32,10 @@ var schema = new mongoose.Schema({
     period3: {
         type: Number,
         require: true
-    }
+    },
+    intro: {
+        type: String
+    },
 })
 
 exports.Setting = mongoose.model('Setting', schema)

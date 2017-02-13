@@ -34,19 +34,26 @@ app.get('/', function(req, res) {
 
 var Partners = require('./models/partner').Partner
 app.get('/extend', function(req, res) {
+    /*var referer = req.header('Referer')
+    if( (typeof referer == 'undefined') || (referer.indexOf('zjmods') + 1) == 0 )
+        return res.redirect('/')*/
+
     var freegeoip = require('node-freegeoip')
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
 
-    //var ip = '80.95.38.251'
     freegeoip.getLocation(ip, function(err, location) {
-        console.log(location);
-    })
+        var region = 'en'
+        if( err || location.country_code == 'RU') region = 'ru'
 
-    Partners.find({"visible": true}, function (err, partners, next) {
-        //if (err) return next(err)
-        res.render('extend', {partners: partners})
+        //Partners.find({"visible": true, "region": region}, function (err, partners, next) {
+        Partners.find({"visible": true, "region": "ru"}, function (err, partners, next) {
+            //if (err) return next(err)
+            res.render('extend', {partners: partners})
+        })
     })
 })
+
+app.get('/intro', routesSettings.intro)
 
 app.use('^/admin', auth)
 
@@ -74,6 +81,7 @@ app.post('/admin/partner/create', routesPartner.add)
 app.get('/admin/partner/edit/:id', routesPartner.editForm)
 app.post('/admin/partner/edit', routesPartner.edit)
 app.delete('/admin/partner/delete/:id', routesPartner.delete)
+app.post('/partner/click/:id', routesPartner.click)
 
 app.use(function (err, req, res, next) {
     res.status(err.status || 500)

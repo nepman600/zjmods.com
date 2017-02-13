@@ -25,7 +25,6 @@ exports.list = function (req, res) {
     })
 }
 
-
 exports.createForm = function (req, res) {
     res.render('banners/create')
 }

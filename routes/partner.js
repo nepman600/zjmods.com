@@ -50,6 +50,7 @@ exports.add = function (req, res, next) {
         title: req.body.title,
         period: req.body.period,
         click_limit: req.body.click_limit,
+        click_real: 0,
         sort: req.body.sort,
         visible: true,
         region: req.body.region,
@@ -136,6 +137,30 @@ exports.delete = function (req, res, next) {
             var response = {
                 message: "Partner successfully deleted",
                 id: partner._id
+            }
+            res.send(response)
+        })
+    })
+}
+
+exports.click = function (req, res, next) {
+    Partner.findById(req.params.id, function (err, partner) {
+        if (err) return next(err)
+        if(partner === null) return next(e.setError(404, 'partner not found!'))
+
+        if( partner.click_limit == partner.click_real + 1 ){
+            partner.click_real = 0
+            partner.visible = false
+        }
+        else
+            partner.click_real = partner.click_real + 1
+
+        //console.log(partner.visible)
+        partner.save(function (err, updatedPartner) {
+            if (err) return next(err)
+            //return res.redirect('/extend')
+            var response = {
+                status: 200
             }
             res.send(response)
         })
