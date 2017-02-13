@@ -51,7 +51,8 @@ exports.add = function (req, res, next) {
         period: req.body.period,
         click_limit: req.body.click_limit,
         sort: req.body.sort,
-        visible: true
+        visible: true,
+        region: req.body.region
     })
     partner.save(function (err, partner, affected) {
         if(err)
