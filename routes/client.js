@@ -52,7 +52,7 @@ exports.edit = function (req, res, next) {
         if(client === null) return next(e.setError(404, 'Client not found!'))
 
         client.hash = req.body.hash
-        client.expire = req.body.expire
+        //client.expire = req.body.expire
         client.ban = (req.body.ban == 'false') ? false : true
         client.save(function (err, updatedClient) {
             if(err) return res.render('client/edit', {err: 'Ошибка!!!'})

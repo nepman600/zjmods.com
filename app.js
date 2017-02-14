@@ -26,7 +26,7 @@ app.use(fileUpload())
 //routers
 app.get('/', routes.frontend)
 app.get('/extend', routes.extend)
-//app.get('/client', routes.client)
+app.get('/client', routes.client)
 
 app.get('/assembly', function(req, res) {
     var file = __dirname + '/public/docs/assembly.docx'

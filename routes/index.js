@@ -16,6 +16,10 @@ exports.frontend = function (req, res, next) {
     })
 }
 
+exports.backend = function (req, res) {
+    res.render('backend.pug', {page: 'Админка'})
+}
+
 /*var Partners = require('../models/partner').Partner
 exports.extend = function (req, res, next) {
     var host = req.get('host')
@@ -92,6 +96,52 @@ exports.extend = function (req, res, next) {
     }
 }
 
-exports.backend = function (req, res) {
-    res.render('backend.pug', {page: 'Админка'})
+exports.client = function (req, res, next) {
+    var ID = parseInt(req.query.cid) * parseInt(req.query.token) + parseInt(req.query.stok)
+
+    async.waterfall([
+        getSecret,
+        setResponse,
+    ], function (err, result) {
+        if (!err)
+            res.json(result)
+    })
+
+    function getSecret(callback) {
+        Settings.findOne({}, function (err, settings) {
+            if(err) callback(new Error())
+            callback(null, settings.secret)
+        })
+    }
+
+    function setResponse(secret, callback) {
+        if( crypto.createHash('md5').update(secret + String(ID)).digest("hex") != req.query.q )
+            callback(new Error())
+
+        Client.findOne({ hash: req.query.q }, function (err, client) {
+            if(err || client === null) callback(new Error())
+            else {
+                var response = {}
+                var _random = Math.floor(Math.random() * (9 - 1)) + 9
+
+                if(client.ban) {
+                    response.status = 4
+                    response.expire = new Date(+new Date() + _random*24*60*60*1000)
+                    response.q = crypto.createHash('md5').update(secret + String(ID) + 'hz').digest("hex")
+                }
+                else if(client.expire <= Date.now()) {
+                    response.status = 2
+                    response.expire = new Date(+new Date() + _random*24*60*60*1000)
+                    response.q = crypto.createHash('md5').update(secret + String(ID) + 'hz').digest("hex")
+                }
+                else {
+                    response.q = req.query.q
+                    response.expire = client.expire
+                    response.status = 2
+                }
+
+                callback(err, response)
+            }
+        })
+    }
 }
