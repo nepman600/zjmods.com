@@ -12,16 +12,16 @@ exports.zeroClick = function(){
         for(var i = 0; i < partners.length; i++){
             var partner = partners[i]
 
-            if( partners.click_real > 0 ){
+            if( partner.click_real > 0 ){
                 partner.click_real = 0
             }
 
-            if( partners.visible === false ){
-                partners.visible = true
+            if( partner.visible === false ){
+                partner.visible = true
             }
 
             partner.save(function (err, partner, affected) {
-                //if(err) console.log(err)
+                if(err) console.log(err)
             })
         }
     })

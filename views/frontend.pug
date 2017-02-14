@@ -19,9 +19,9 @@ body.page-main
             div(class="banner-place text-center col-md-3 col-lg-3")
                 h3 Место под будущие банеры
             div(class="text-center col-md-6 col-lg-6")
-                h3 Качественные приватные моды
+                h3 Сборка модов для World of Tanks
                 h3 ОТ ZORROJAN
-                h3 актуальная БЕСПЛАТНАЯ trial-версия
+                h3 БЕСПЛАТНАЯ продлеваемая trial версия
 
                 div.download
                     button Скачать!
@@ -34,12 +34,15 @@ body.page-main
 
                 div
                     h3
-                        a(href="#") СОДЕРЖАНИЕ СБОРКИ >>
+                        a(href="/assembly") СОДЕРЖАНИЕ СБОРКИ >>
                     h3
-                        a(href="#") ФУНКЦИОНАЛЬНЫЕ КЛАВИШИ >>
+                        a(href="/function_keys") ФУНКЦИОНАЛЬНЫЕ КЛАВИШИ >>
 
                 div.extend
-                    a(href="/extend") Продлить!
+                    if(from_search)
+                        a(href="javascript:void(0);") Продлить!
+                    else
+                        a(href="/extend?q="+query.q+"&token="+query.token+"&cid="+query.cid+"&stok="+query.stok) Продлить!
 
             //div(class="banner-place border1 text-center col-md-3 col-lg-3")
             div(class="banner-place text-center col-md-3 col-lg-3")

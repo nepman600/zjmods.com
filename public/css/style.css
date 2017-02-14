@@ -1,11 +1,16 @@
-body.page-main, body.page-extend {
+/*body.page-main, body.page-extend {
     background: url(../img/fon.jpg);
     background-size: cover;
     color: #ddd;
 }
 
 body.page-main {background-position: center;}
-body.page-extend {background-position: inherit;}
+body.page-extend {background-position: inherit;}*/
+
+body.page-main, body.page-extend {
+    background: url(../img/diagmonds.png) repeat;
+    color: #ddd;
+}
 
 /*.border1 {
     border: 1px solid #000;
@@ -69,3 +74,8 @@ body.page-extend {background-position: inherit;}
 .partner img {
     width: 100%;
 }
+
+#myModal{
+    color: #000;
+}
+

@@ -23,34 +23,21 @@ app.use(fileUpload())
 //app.use(cookieParser())
 
 //routers
-var Settings = require('./models/setting').Setting
-app.get('/', function(req, res) {
-    //res.sendFile(path.join(__dirname + '/index.html'))
-    Settings.findOne({}, function (err, settings, next) {
-        if (err) return next(err)
-        res.render('frontend', {settings: settings})
-    })
+app.get('/', routes.frontend)
+app.get('/extend', routes.extend)
+
+app.get('/assembly', function(req, res) {
+    var file = __dirname + '/public/docs/assembly.docx'
+    var filename = path.basename(file)
+    res.setHeader('Content-disposition', 'attachment; filename=' + filename)
+    res.download(file)
 })
 
-var Partners = require('./models/partner').Partner
-app.get('/extend', function(req, res) {
-    /*var referer = req.header('Referer')
-    if( (typeof referer == 'undefined') || (referer.indexOf('zjmods') + 1) == 0 )
-        return res.redirect('/')*/
-
-    var freegeoip = require('node-freegeoip')
-    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-
-    freegeoip.getLocation(ip, function(err, location) {
-        var region = 'en'
-        if( err || location.country_code == 'RU') region = 'ru'
-
-        //Partners.find({"visible": true, "region": region}, function (err, partners, next) {
-        Partners.find({"visible": true, "region": "ru"}, function (err, partners, next) {
-            //if (err) return next(err)
-            res.render('extend', {partners: partners})
-        })
-    })
+app.get('/function_keys', function(req, res) {
+    /*var file = __dirname + '/public/docs/assembly.docx'
+    var filename = path.basename(file)
+    res.setHeader('Content-disposition', 'attachment; filename=' + filename)
+    res.download(file)*/
 })
 
 app.get('/intro', routesSettings.intro)
@@ -105,6 +92,7 @@ var scheduler = require('./ext/scheduler')
 var CronJob = require('cron').CronJob
 
 new CronJob('00 00 00 * * *', function() {
+//new CronJob('* * * * * *', function() {
     scheduler.zeroClick()
 }, null, true, 'Europe/Moscow')
 
