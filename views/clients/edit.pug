@@ -1,0 +1,30 @@
+extends ../backend
+
+block content
+    h1= 'Edit client #' + client.hash
+    - if(err)
+        div(class="alert alert-danger")
+            strong=err
+
+    form(action="/admin/clients/edit" method="POST")
+        //input(type="hidden" name="_method" value="put")
+        input(type="hidden" name="clientID" value=client.id)
+        div(class="form-group")
+            label(class="control-label" for="hash") Hash
+            input(type="text" id="hash" class="form-control" name="hash" required value=client.hash)
+        div(class="form-group")
+            label(class="control-label" for="expire") Expire
+            input(type="text" id="expire" class="form-control" name="expire" required value=client.expire)
+
+        div(class="form-group")
+            label(class="control-label" for="ban") Ban &nbsp;
+            select(name="ban" id="ban")
+                option(disabled) Ban
+                for status in ['false', 'true']
+                    if status == String(client.ban)
+                        option(value="" + status selected)= status
+                    else
+                        option(value="" + status)= status
+
+        div.form-group
+            button(type="submit" class="btn btn-primary" name="button") Edit

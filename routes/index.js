@@ -1,4 +1,6 @@
-var path = require('path')
+//var path = require('path')
+var async = require('async')
+var crypto = require('crypto')
 
 var Settings = require('../models/setting').Setting
 exports.frontend = function (req, res, next) {
@@ -45,11 +47,49 @@ exports.extend = function (req, res, next) {
     if( (typeof referer == 'undefined') || (referer.indexOf(host) + 1) == 0 )
         return res.redirect('/')
 
-    /*q=bae36320f395b9fb5e6f9f8e6cb8b319&token=32&cid=2024&ver=076&stok=1321
-    2024(cid)*token+stok = ID(int)
-    if( md5(secret+ID) == q )*/
-    var id = parseInt(req.query.cid) * parseInt(req.query.token) + parseInt(req.query.stok)
-    //if()
+    var ID = parseInt(req.query.cid) * parseInt(req.query.token) + parseInt(req.query.stok)
+
+    async.waterfall([
+        getSecret,
+        compaireHash,
+        extend,
+    ], function (err, result) {
+        if (err)
+            return next(err)
+        else
+            res.render('extend', {expire: result})
+    })
+
+    function getSecret(callback) {
+        Settings.findOne({}, function (err, settings) {
+            callback(err, settings.secret)
+        })
+    }
+
+    function compaireHash(secret, callback) {
+        if( crypto.createHash('md5').update(secret + String(ID)).digest("hex") == req.query.q )
+            callback(null, req.query.q)
+        else
+            callback(new Error('Извините Вы не являетесь нашим клиентом!'))
+    }
+
+    function extend(q, callback) {
+        Client.findOne({ hash: q }, function (err, client) {
+            if(err) callback(err)
+
+            if(client === null) {
+                client = new Client()
+                client.hash = q
+            }
+            else {
+                client.expire = new Date(+new Date() + 1*24*60*60*1000)
+            }
+
+            client.save(function(err, client){
+                callback(err, client.expire)
+            })
+        })
+    }
 }
 
 exports.backend = function (req, res) {

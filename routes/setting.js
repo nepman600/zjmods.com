@@ -12,7 +12,7 @@ exports.form = function (req, res) {
 exports.save = function (req, res, next) {
     Settings.findOne({}, function (err, settings) {
         if (err) return next(err)
-        console.log(req.body.intro)
+        //console.log(req.body.intro)
         settings.download_link = req.body.download_link
         settings.secret = req.body.secret
         settings.help_url = req.body.help_url

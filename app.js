@@ -11,6 +11,7 @@ var routesUser = require('./routes/user')
 var routesSettings = require('./routes/setting')
 var routesBanner = require('./routes/banner')
 var routesPartner = require('./routes/partner')
+var routesClient = require('./routes/client')
 
 app.disable('x-powered-by')
 app.set('view engine', 'pug')
@@ -25,6 +26,7 @@ app.use(fileUpload())
 //routers
 app.get('/', routes.frontend)
 app.get('/extend', routes.extend)
+//app.get('/client', routes.client)
 
 app.get('/assembly', function(req, res) {
     var file = __dirname + '/public/docs/assembly.docx'
@@ -43,8 +45,8 @@ app.get('/function_keys', function(req, res) {
 app.get('/intro', routesSettings.intro)
 
 app.use('^/admin', auth)
-
 app.get('/admin', routes.backend)
+
 app.get('/admin/users', routesUser.list)
 app.get('/admin/users/create', routesUser.createForm)
 app.post('/admin/users/create', routesUser.add)
@@ -69,6 +71,13 @@ app.get('/admin/partner/edit/:id', routesPartner.editForm)
 app.post('/admin/partner/edit', routesPartner.edit)
 app.delete('/admin/partner/delete/:id', routesPartner.delete)
 app.post('/partner/click/:id', routesPartner.click)
+
+app.get('/admin/clients', routesClient.list)
+app.get('/admin/clients/create', routesClient.createForm)
+app.post('/admin/clients/create', routesClient.add)
+app.get('/admin/clients/edit/:id', routesClient.editForm)
+app.post('/admin/clients/edit', routesClient.edit)
+app.delete('/admin/clients/delete/:id', routesClient.delete)
 
 app.use(function (err, req, res, next) {
     res.status(err.status || 500)

@@ -14,14 +14,20 @@ body.page-extend
             button RU
             button EN
 
-        div(class="text-center partners")
+        //div(class="text-center partners")
             for partner in partners
                 div(class="partner" id=partner.id)
                     img(src="/upload/partners/" + partner.img)
 
-        div(style="clear:both")
+        //div(style="clear:both")
 
-script(type='text/javascript' src='/js/liveinternet.js')
+        if(expire)
+            div(class="text-center")
+                h1= 'Продлен до ' + expire
+        else
+            div(class="text-center") 'Извините Вы не являетесь нашим клиентом!'
+
+//script(type='text/javascript' src='/js/liveinternet.js')
 script(type='text/javascript' src='/js/jquery-3.1.1.min.js')
 script(type='text/javascript' src='/js/bootstrap.js')
 script(type='text/javascript' src='/js/frontend.js')
