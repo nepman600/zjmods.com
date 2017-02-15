@@ -26,10 +26,10 @@ $(document).ready(function () {
     for(var i = 0; i < banners.length; i++) {
         //console.log(i, banners[i])
         if( ( i + 1 ) % 2 ) {
-            $('.banners-l').append('<div class="banner"><img src="../upload/banners/' + banners[i].img + '"></div>')
+            $('.banners-l').append('<div class="banner"><a href="'+banners[i].link+'"><img src="../upload/banners/' + banners[i].img + '"></a></div>')
         }
         else {
-            $('.banners-r').append('<div class="banner"><img src="../upload/banners/' + banners[i].img + '"></div>')
+            $('.banners-r').append('<div class="banner"><a href="'+banners[i].link+'"><img src="../upload/banners/' + banners[i].img + '"></a></div>')
         }
     }
 

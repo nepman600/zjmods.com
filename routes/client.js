@@ -24,20 +24,38 @@ exports.createForm = function (req, res) {
     res.render('clients/create')
 }
 
-exports.add = function (req, res) {
-    var user = new Client({
-        hash: req.body.hash,
-        expire: req.body.expire,
-        ban: (req.body.ban == 'false') ? false : true
-    })
-    user.save(function (err, user, affected) {
-        //if(err) throw err
-        if(err){
-            //console.log(req.body)
-            res.render('clients/create', {err: 'Ошибка!!!'})
+exports.add = function (req, res, next) {
+    async.waterfall([
+        getSecret,
+        saveClient,
+    ], function (err, result) {
+        if(err) {
+            next(err)
         }
         else res.redirect('/admin/clients')
     })
+
+    function getSecret(callback) {
+        Settings.findOne({}, function (err, settings) {
+            if(err) callback(err)
+            callback(null, settings.secret)
+        })
+    }
+
+    function saveClient(secret, callback) {
+        var hash =  crypto.createHash('md5').update(secret + String(req.body.gameID)).digest("hex")
+        var client = new Client({
+            hash: hash,
+            //expire: req.body.expire,
+            ban: (req.body.ban == 'false') ? false : true
+        })
+        client.save(function (err, client, affected) {
+            if(err){
+                callback(err)
+            }
+            callback(null)
+        })
+    }
 }
 
 exports.editForm = function (req, res, next) {

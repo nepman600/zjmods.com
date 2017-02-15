@@ -78,7 +78,7 @@ app.get('/admin/clients/create', routesClient.createForm)
 app.post('/admin/clients/create', routesClient.add)
 app.get('/admin/clients/edit/:id', routesClient.editForm)
 app.post('/admin/clients/edit', routesClient.edit)
-app.delete('/admin/clients/delete/:id', routesClient.delete)
+app.delete('/admin/client/delete/:id', routesClient.delete)
 app.get('/admin/client/search/:id', routesClient.search)
 
 app.use(function (err, req, res, next) {
