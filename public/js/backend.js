@@ -49,6 +49,23 @@ function delPartner(id)
     })
 }
 
+function delClient(id)
+{
+    if(!(confirm('Are you sure?')))
+        return
+
+    fetch('/admin/client/delete/' + id, {
+        method: 'delete',
+        /*body: JSON.stringify({
+         'name': 'zzz'
+         }),*/
+        credentials: "same-origin"
+    }).then(function (response) {
+        //console.log(response)
+        if(response.status == 200) window.location.reload()
+    })
+}
+
 ///////////////////////////////////////////////////////////////////////////
 function searchClient(e, elm) {
     if (e.keyCode == 13) {

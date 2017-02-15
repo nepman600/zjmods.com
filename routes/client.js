@@ -34,9 +34,9 @@ exports.add = function (req, res) {
         //if(err) throw err
         if(err){
             //console.log(req.body)
-            res.render('users/create', {err: 'Ошибка!!!'})
+            res.render('clients/create', {err: 'Ошибка!!!'})
         }
-        else res.redirect('/admin/users')
+        else res.redirect('/admin/clients')
     })
 }
 
@@ -67,15 +67,15 @@ exports.edit = function (req, res, next) {
 }
 
 exports.delete = function (req, res, next) {
-    User.findById(req.params.id, function (err, user) {
+    Client.findById(req.params.id, function (err, client) {
         if (err) return next(err)
-        if(user === null) return next(e.setError(404, 'User not found!'))
+        if(client === null) return next(e.setError(404, 'Client not found!'))
 
-        //res.json(user)
-        User.findByIdAndRemove(req.params.id, function (err, user) {
+        //res.json(client)
+        Client.findByIdAndRemove(req.params.id, function (err, client) {
             var response = {
-                message: "User successfully deleted",
-                id: user._id
+                message: "Client successfully deleted",
+                id: client._id
             };
             res.send(response);
         });
