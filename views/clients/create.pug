@@ -1,17 +1,25 @@
 extends ../backend
 
 block content
-    h1 Create User
+    h1 Create Client
     - if(err)
         div(class="alert alert-danger")
             strong=err
 
-    form(action="/admin/users/create" method="POST")
+    form(action="/admin/clients/create" method="POST")
         div(class="form-group")
-            label(class="control-label" for="username") Username
-            input(type="text" id="username" class="form-control" name="username" required)
+            label(class="control-label" for="hash") Hash
+            input(type="text" id="hash" class="form-control" name="hash" required)
+        //div(class="form-group")
+            label(class="control-label" for="expire") Expire
+            input(type="text" id="expire" class="form-control" name="expire" required)
+
         div(class="form-group")
-            label(class="control-label" for="password") Password
-            input(type="password" id="password" class="form-control" name="password" required)
+            label(class="control-label" for="ban") Ban &nbsp;
+            select(name="ban" id="ban")
+                option(disabled) Ban
+                option(value="false" selected) Нет
+                option(value="true") Да
+
         div.form-group
             button(type="submit" class="btn btn-primary" name="button") Create

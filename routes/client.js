@@ -21,13 +21,14 @@ exports.list = function (req, res, next) {
 
 
 exports.createForm = function (req, res) {
-    res.render('users/create')
+    res.render('clients/create')
 }
 
 exports.add = function (req, res) {
-    var user = new User({
-        username: req.body.username,
-        pass: req.body.password
+    var user = new Client({
+        hash: req.body.hash,
+        expire: req.body.expire,
+        ban: (req.body.ban == 'false') ? false : true
     })
     user.save(function (err, user, affected) {
         //if(err) throw err
