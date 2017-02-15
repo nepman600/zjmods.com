@@ -42,6 +42,31 @@ exports.frontend = function (req, res, next) {
     })
 }
 
+exports.frontendEn = function (req, res, next) {
+    async.parallel({
+        settings: function(callback) {
+            Settings.findOne({}, function (err, settings) {
+                if(err) callback(err)
+                callback(null, settings)
+            })
+        },
+        banners: function(callback) {
+            Banners.find({}, function (err, banners) {
+                if(err) callback(err)
+                callback(null, banners)
+            }).sort({ sort: 1 })
+        }
+    }, function(err, results) {
+        if(err) next(err)
+
+        //res.json(results.banners)
+        if(req.query.q)
+            res.render('frontendEn', {settings: results.settings, query: req.query, banners: JSON.stringify(results.banners)})
+        else
+            res.render('frontendEn', {settings: results.settings, from_search: true, banners: JSON.stringify(results.banners)})
+    })
+}
+
 exports.backend = function (req, res) {
     res.render('backend.pug', {page: 'Админка'})
 }

@@ -25,6 +25,7 @@ app.use(fileUpload())
 
 //routers
 app.get('/', routes.frontend)
+app.get('/en', routes.frontendEn)
 app.get('/extend', routes.extend)
 //app.get('/client', routes.client)
 app.post('/client', routes.client)

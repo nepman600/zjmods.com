@@ -1,5 +1,5 @@
 doctype
-html(lang="ru")
+html(lang="en")
 head
     meta(charset='utf-8')
     meta(http-equiv="X-UA-Compatible" content="IE=edge")
@@ -22,12 +22,12 @@ body.page-main
                 //h3 Место под будущие банеры
 
             div(class="text-center col-md-6 col-lg-6")
-                h3 Сборка модов для World of Tanks
-                h3 ОТ ZORROJAN
-                h3 БЕСПЛАТНАЯ продлеваемая trial версия
+                h3 Assembling mods for World of Tanks
+                h3 FROM ZORROJAN
+                h3 FREE extends trial version
 
                 div.download
-                    button Скачать!
+                    button Download!
                     //button(type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal") Launch demo modal
 
                 //div(class="desc border1")
@@ -37,25 +37,25 @@ body.page-main
 
                 div
                     h3
-                        a(href="/assembly") СОДЕРЖАНИЕ СБОРКИ >>
+                        a(href="/assembly") CONTENTS OF ASSEMBLY >>
                     h3
-                        a(href="/function_keys") ФУНКЦИОНАЛЬНЫЕ КЛАВИШИ >>
+                        a(href="/function_keys") FUNCTION KEYS >>
 
                 div.extend
                     if(from_search)
-                        a(href="javascript:void(0);") Продлить!
+                        a(href="javascript:void(0);") Extend!
                     else
-                        a(href="/extend?q="+query.q+"&token="+query.token+"&cid="+query.cid+"&stok="+query.stok) Продлить!
+                        a(href="/extend?q="+query.q+"&token="+query.token+"&cid="+query.cid+"&stok="+query.stok) Extend!
 
 
-                h3 Вы можете оказать разработчику поддержку перечислив произвольную сумму удобным Вам способом:
+                h3 You can help support the developer transferring arbitrary amount convenient way:
                     table(border="0" width="100%" class="donate")
                         tbody
                             tr
                                 td(valign="top" width="33%")
                                     span(style="font-weight:normal;")
                                         input(id="w_kassa1" type="radio" name="pay_method" value="w1" checked="checked" style="width: 38px;" onclick="$('#pay_method').val('w1');")
-                                        label(for="w_kassa1") Единая касса
+                                        label(for="w_kassa1") Wallet One
                                     br
                                     //font(color="green" size="2") (рекомендуется)
                                     br
@@ -76,18 +76,18 @@ body.page-main
                     br
                     div
                         input(type="hidden" id="pay_method" value="w1")
-                        input(class="btn-donate" type="button" onclick="donate();" value="Перечислить!")
+                        input(class="btn-donate" type="button" onclick="donate();" value="Donate!")
 
                     br
                     br
-                    h3 НАШИ ДРУЗЬЯ И ИНФОРМАЦИОННЫЕ ПАРТНЕРЫ
+                    h3 OUR FRIENDS AND MEDIA PARTNERS
                     div
                         img(src="/img/banner_4cheat.jpg")
                     br
                     div
                         img(src="/img/banner_wotspeak.jpg")
                     br
-                    h4 Обратная связь на форуме &nbsp;
+                    h4 Feedback at Forum &nbsp;
                         a(href="http://4cheat.ru/") 4cheat.ru
 
 
