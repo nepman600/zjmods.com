@@ -60,6 +60,22 @@ body.page-main, body.page-extend {
     box-sizing: border-box;
 }
 
+.btn-donate {
+    color:#ffffff;
+    font-size: 12pt;
+    width: 126px;
+    height: 38px;
+    /*background: url('../img/button-m.png') 0 0 no-repeat;*/
+    background: url('../img/button-m.png') repeat;
+    line-height: 37px;
+    font-weight: bold;
+    border: 0;
+}
+
+.banner {
+    margin: 20px;
+}
+
 .partners {
 
 }

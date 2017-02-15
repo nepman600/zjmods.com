@@ -16,8 +16,9 @@ body.page-main
 
         div.row
             //div(class="banner-place border1 text-center col-md-3 col-lg-3")
-            div(class="banner-place text-center col-md-3 col-lg-3")
-                h3 Место под будущие банеры
+            div(class="banners-l text-center col-md-3 col-lg-3")
+                //h3 Место под будущие банеры
+
             div(class="text-center col-md-6 col-lg-6")
                 h3 Сборка модов для World of Tanks
                 h3 ОТ ZORROJAN
@@ -44,54 +45,59 @@ body.page-main
                     else
                         a(href="/extend?q="+query.q+"&token="+query.token+"&cid="+query.cid+"&stok="+query.stok) Продлить!
 
-            //div(class="banner-place border1 text-center col-md-3 col-lg-3")
-            div(class="banner-place text-center col-md-3 col-lg-3")
-                h3 Место под будущие банеры
 
-    div(class="conteiner page")
-        div.row
-            //div(class="banner-place border1 text-center col-md-3 col-lg-3")
-            div(class="banner-place text-center col-md-3 col-lg-3")
-                h3 Место под будущие банеры
-
-            div(class="text-center col-md-6 col-lg-6")
                 h3 Вы можете оказать разработчику поддержку перечислив произвольную сумму удобным Вам способом:
-                table(border="0" width="100%" class="donate")
-                    tbody
-                        tr
-                            td(valign="top" width="33%")
-                                span(style="font-weight:normal;")
-                                    input(id="w_kassa1" type="radio" name="pay_method" value="w1" checked="checked" style="width: 38px;" onclick="$('#pay_method').val('w1');")
-                                    label(for="w_kassa1") Единая касса
-                                br
-                                font(color="green" size="2") (рекомендуется)
-                                br
-                                img(class="rect2" alt="" src="/img/w1_form.gif" widht="160")
-                            td(valign="top" width="33%")
-                                span(style="font-weight:normal;")
-                                    input(id="MoneyPay_Yandex_Visa" type="radio" name="pay_method" value="yandex" style="width: 38px;" onclick="$('#pay_method').val('yandex');")
-                                    label(for="MoneyPay_Yandex_Visa") Visa/Mastercard
-                                br
-                                img(class="rect2" alt="" src="/img/yandex-pay.jpg")
-                            td(valign="top" width="33%")
-                                span(style="font-weight:normal;")
-                                    input(id="paypal" type="radio" name="pay_method" value="paypal" style="width: 38px;" onclick="$('#pay_method').val('paypal');")
-                                    label(for="paypal") PayPal
-                                br
-                                img(class="rect2" alt="" src="/img/paypal.png" widht="160")
+                    table(border="0" width="100%" class="donate")
+                        tbody
+                            tr
+                                td(valign="top" width="33%")
+                                    span(style="font-weight:normal;")
+                                        input(id="w_kassa1" type="radio" name="pay_method" value="w1" checked="checked" style="width: 38px;" onclick="$('#pay_method').val('w1');")
+                                        label(for="w_kassa1") Единая касса
+                                    br
+                                    //font(color="green" size="2") (рекомендуется)
+                                    br
+                                    img(class="rect2" alt="" src="/img/w1_form.gif" widht="160")
+                                td(valign="top" width="33%")
+                                    span(style="font-weight:normal;")
+                                        input(id="MoneyPay_Yandex_Visa" type="radio" name="pay_method" value="yandex" style="width: 38px;" onclick="$('#pay_method').val('yandex');")
+                                        label(for="MoneyPay_Yandex_Visa") Visa/Mastercard
+                                    br
+                                    img(class="rect2" alt="" src="/img/yandex-pay.jpg")
+                                td(valign="top" width="33%")
+                                    span(style="font-weight:normal;")
+                                        input(id="paypal" type="radio" name="pay_method" value="paypal" style="width: 38px;" onclick="$('#pay_method').val('paypal');")
+                                        label(for="paypal") PayPal
+                                    br
+                                    img(class="rect2" alt="" src="/img/paypal.png" widht="160")
 
-                br
-                br
-                h3 НАШИ ДРУЗЬЯ И ИНФОРМАЦИОННЫЕ ПАРТНЕРЫ
-                div
-                    img(src="/img/banner_4cheat.jpg")
-                br
-                div
-                    img(src="/img/banner_wotspeak.jpg")
+                    br
+                    div
+                        input(type="hidden" id="pay_method" value="w1")
+                        input(class="btn-donate" type="button" onclick="donate();" value="Перечислить!")
+
+                    br
+                    br
+                    h3 НАШИ ДРУЗЬЯ И ИНФОРМАЦИОННЫЕ ПАРТНЕРЫ
+                    div
+                        img(src="/img/banner_4cheat.jpg")
+                    br
+                    div
+                        img(src="/img/banner_wotspeak.jpg")
+                    br
+                    h4 Обратная связь на форуме &nbsp;
+                        a(href="http://4cheat.ru/") 4cheat.ru
+
 
             //div(class="banner-place border1 text-center col-md-3 col-lg-3")
-            div(class="banner-place text-center col-md-3 col-lg-3")
-                h3 Место под будущие банеры
+            div(class="banners-r text-center col-md-3 col-lg-3")
+                //h3 Место под будущие банеры
+
+
+
+//banners
+div(id="banners" style="display:none")= banners
+//- console.log(JSON.parse(banners))
 
 <!-- Modal -->
 div(class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true")
@@ -107,10 +113,57 @@ div(class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby=
                 button(type="button" class="btn btn-secondary" data-dismiss="modal") Close
                 //button(type="button" class="btn btn-primary") Save changes
 
+//donate
+//w1
+form(id="form_w1" action="https://wl.walletone.com/checkout/checkout/Index" method="post")
+    input(type="hidden" name="WMI_MERCHANT_ID" value="174940801931")
+    //input type="hidden" name="WMI_DESCRIPTION" value="BASE64:<?= base64_encode("Оплата заказа на zjmods.com") ?>")
+    input(type="hidden" name="WMI_DESCRIPTION" value="Поддержка zjmods.com")
+    input(type="hidden" name="WMI_SUCCESS_URL" value="http://zjmods.com")
+    input(type="hidden" name="WMI_FAIL_URL" value="http://zjmods.com")
+    input(type="hidden" name="WMI_CURRENCY_ID" value="643")
+    input(type="hidden" name="WMI_PAYMENT_AMOUNT")
+    input(type="hidden" name="WMI_CUSTOMER_EMAIL")
+    input(type="hidden" name="WMI_RECIPIENT_LOGIN")
+    input(type="hidden" name="PRICE_ID")
+    input(type="hidden" name="ACCOUNT")
+    //input(type="hidden" name="WMI_SIGNATURE" value="")
+
+//yandex
+form(id="form_yandex_pay" method="post" action="https://money.yandex.ru/quickpay/confirm.xml")
+    input(type="hidden" name="receiver" value="410014734546338")
+    input(type="hidden" name="successURL" value="http://zjmods.com")
+    input(type="hidden" name="label" value="")
+    input(type="hidden" name="quickpay-form" value="shop")
+    input(type="hidden" name="is-inner-form" value="true")
+    input(type="hidden" name="targets" value="Поддержка zjmods.com")
+    input(type="hidden" name="referer" value="http://zjmods.com/")
+    input(type="hidden" name="need-email" value="true")
+    input(type="hidden" name="sum")
+    input(type="hidden" name="paymentType" value="AC")
+    //input(type="hidden" name="paymentType" value="PC")
+
+//pp
+form(id="pp_form" method="post" action= "https://www.paypal.com/cgi-bin/webscr")
+    input(type="hidden" name="cmd" value="_xclick")
+    input(type="hidden" name="business" value="ZorroJanbiz@yandex.ru")
+    input(type="hidden" name="item_name" value="Donate to zjmods.com")
+    input(type="hidden" name="return" value="http://zjmods.com")
+    input(type="hidden" name="rm" value="2")
+    //input(type="hidden" name="rm" value="1")
+    input(type="hidden" name="notify_url" value="http://zjmods.com")
+    input(type="hidden" name="no_shipping" value="1")
+    input(type="hidden" name="bn" value="PP-BuyNowBF")
+    //<input type="hidden" name="item_number" value="<?= $arPrice[0]['id'] ?>">
+    input(type="hidden" name="amount")
+    //input(type="hidden" name="currency_code" value="USD")
+    input(type="hidden" name="currency_code" value="RUB")
+    input(type="hidden" name="usr_manage" value="1")
+    input(type="hidden" name="custom")
+
 script(type='text/javascript' src='/js/liveinternet.js')
 script(type='text/javascript' src='/js/jquery-3.1.1.min.js')
 script(type='text/javascript' src='/js/bootstrap.js')
 script(type='text/javascript' src='/js/frontend.js')
-
 
 

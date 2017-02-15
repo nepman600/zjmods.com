@@ -3,7 +3,8 @@ var async = require('async')
 var crypto = require('crypto')
 
 var Settings = require('../models/setting').Setting
-exports.frontend = function (req, res, next) {
+var Banners = require('../models/banner').Banner
+/*exports.frontend = function (req, res, next) {
     //res.sendFile(path.join(__dirname + '/index.html'))
     Settings.findOne({}, function (err, settings, next) {
         if (err) return next(err)
@@ -13,6 +14,31 @@ exports.frontend = function (req, res, next) {
             res.render('frontend', {settings: settings, query: req.query})
         else
             res.render('frontend', {settings: settings, from_search: true})
+    })
+}*/
+
+exports.frontend = function (req, res, next) {
+    async.parallel({
+        settings: function(callback) {
+            Settings.findOne({}, function (err, settings) {
+                if(err) callback(err)
+                callback(null, settings)
+            })
+        },
+        banners: function(callback) {
+            Banners.find({}, function (err, banners) {
+                if(err) callback(err)
+                callback(null, banners)
+            }).sort({ sort: 1 })
+        }
+    }, function(err, results) {
+        if(err) next(err)
+
+        //res.json(results.banners)
+        if(req.query.q)
+            res.render('frontend', {settings: results.settings, query: req.query, banners: JSON.stringify(results.banners)})
+        else
+            res.render('frontend', {settings: results.settings, from_search: true, banners: JSON.stringify(results.banners)})
     })
 }
 
@@ -132,6 +158,8 @@ exports.client = function (req, res, next) {
                 else if(client.expire <= Date.now()) {
                     response.status = 2
                     response.expire = new Date(+new Date() + _random*24*60*60*1000)
+                    console.log(Date.parse(response.expire))
+                    console.log(response.expire.getHours(), response.expire.getMinutes())
                     response.q = crypto.createHash('md5').update(secret + String(ID) + 'hz').digest("hex")
                 }
                 else {
@@ -145,3 +173,8 @@ exports.client = function (req, res, next) {
         })
     }
 }
+
+/*
+exports.client = function (req, res, next) {
+    res.json(req.body)
+}*/
