@@ -14,10 +14,10 @@ block content
                 th.action-column &nbsp;
             tr.filters
                 td &nbsp;
-                td &nbsp;
-                td &nbsp;
                 td
-                    input(type="text" class="form-control" name="search_client")
+                    input(type="text" class="form-control" name="search_client" onkeypress="searchClient(event, this)" value=searchID)
+                td &nbsp;
+                td &nbsp;
                 td &nbsp;
         tbody
             - var clients = data;

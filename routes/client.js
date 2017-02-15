@@ -1,4 +1,7 @@
+var crypto = require('crypto')
+var async = require('async')
 var Client = require('../models/client').Client
+var Settings = require('../models/setting').Setting
 var e = require('../ext/error')
 
 exports.list = function (req, res, next) {
@@ -76,4 +79,40 @@ exports.delete = function (req, res, next) {
             res.send(response);
         });
     })
+}
+
+exports.search = function (req, res, next) {
+    //console.log('Cookies: ', req.cookies)
+    async.waterfall([
+        getSecret,
+        searchClient,
+    ], function (err, result) {
+        if (err)
+            next(err)
+        else {
+            res.render('clients/index', {data: result, searchID: req.params.id})
+        }
+    })
+
+    function getSecret(callback) {
+        Settings.findOne({}, function (err, settings) {
+            if(err) callback(err)
+            callback(null, settings.secret)
+        })
+    }
+
+    function searchClient(secret, callback) {
+        var hash =  crypto.createHash('md5').update(secret + String(req.params.id)).digest("hex")
+        Client.find({ hash: hash }, function (err, clients) {
+            if (err) callback(err)
+
+            //res.json(clients)
+            var data = []
+            for(var i = 0; i < clients.length; i++){
+                data[i] = {id: clients[i]._id, hash: clients[i].hash, expire: clients[i].expire, ban: clients[i].ban}
+            }
+            //console.log(data)
+            callback(null, data)
+        })
+    }
 }

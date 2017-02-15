@@ -26,8 +26,8 @@ app.use(fileUpload())
 //routers
 app.get('/', routes.frontend)
 app.get('/extend', routes.extend)
-app.get('/client', routes.client)
-//app.post('/client', routes.client)
+//app.get('/client', routes.client)
+app.post('/client', routes.client)
 
 app.get('/assembly', function(req, res) {
     var file = __dirname + '/public/docs/assembly.docx'
@@ -79,6 +79,7 @@ app.post('/admin/clients/create', routesClient.add)
 app.get('/admin/clients/edit/:id', routesClient.editForm)
 app.post('/admin/clients/edit', routesClient.edit)
 app.delete('/admin/clients/delete/:id', routesClient.delete)
+app.get('/admin/client/search/:id', routesClient.search)
 
 app.use(function (err, req, res, next) {
     res.status(err.status || 500)

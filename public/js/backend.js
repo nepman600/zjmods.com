@@ -48,3 +48,21 @@ function delPartner(id)
         if(response.status == 200) window.location.reload()
     })
 }
+
+///////////////////////////////////////////////////////////////////////////
+function searchClient(e, elm) {
+    if (e.keyCode == 13) {
+        //console.log(elm.value)
+        window.location.href = '/admin/client/search/' + elm.value
+    }
+}
+
+/*
+$(document).ready(function () {
+    $('input[name="search_client"]').on('keydown', function(e) {
+        if (e.which == 13) {
+            //e.preventDefault();
+            console.log('enter')
+        }
+    });
+})*/
