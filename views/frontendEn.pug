@@ -22,9 +22,9 @@ body.page-main
                 //h3 Место под будущие банеры
 
             div(class="text-center col-md-6 col-lg-6")
-                h3 Assembling mods for World of Tanks
-                h3 FROM ZORROJAN
-                h3 FREE extends trial version
+                h1 Assembling mods for World of Tanks
+                h1 FROM ZORROJAN
+                h1 FREE extends trial version
 
                 div.download
                     button Download!
@@ -41,14 +41,15 @@ body.page-main
                     h3
                         a(href="/function_keys") FUNCTION KEYS >>
 
+                span To prolong the need to go to the website link in the hangar game WOT
                 div.extend
                     if(from_search)
-                        a(href="javascript:void(0);") Extend!
+                        a(href="javascript:void(0);" class="noactive") Extend!
                     else
-                        a(href="/extend?q="+query.q+"&token="+query.token+"&cid="+query.cid+"&stok="+query.stok) Extend!
+                        a(class="active" href="/extend?q="+query.q+"&token="+query.token+"&cid="+query.cid+"&stok="+query.stok) Extend!
 
 
-                h3 You can help support the developer transferring arbitrary amount convenient way:
+                h4 You can help support the developer transferring arbitrary amount convenient way:
                     table(border="0" width="100%" class="donate")
                         tbody
                             tr
@@ -82,10 +83,13 @@ body.page-main
                     br
                     h3 OUR FRIENDS AND MEDIA PARTNERS
                     div
-                        img(src="/img/banner_4cheat.jpg")
-                    br
-                    div
-                        img(src="/img/banner_wotspeak.jpg")
+                        div.friend
+                            a(href="http://4cheat.ru/")
+                                img(src="/img/banner_4cheat.jpg")
+
+                        div.friend
+                            a(href="https://wotspeak.ru/")
+                                img(src="/img/banner_wotspeak.jpg")
                     br
                     h4 Feedback at Forum &nbsp;
                         a(href="http://4cheat.ru/") 4cheat.ru

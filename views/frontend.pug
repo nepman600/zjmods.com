@@ -22,9 +22,9 @@ body.page-main
                 //h3 Место под будущие банеры
 
             div(class="text-center col-md-6 col-lg-6")
-                h3 Сборка модов для World of Tanks
-                h3 ОТ ZORROJAN
-                h3 БЕСПЛАТНАЯ продлеваемая trial версия
+                h1 Сборка модов для World of Tanks
+                h1 ОТ ZORROJAN
+                h1 БЕСПЛАТНАЯ продлеваемая trial версия
 
                 div.download
                     button Скачать!
@@ -41,14 +41,15 @@ body.page-main
                     h3
                         a(href="/function_keys") ФУНКЦИОНАЛЬНЫЕ КЛАВИШИ >>
 
+                span Для продления необходимо перейти на сайт по ссылке в ангаре  игры WOT
                 div.extend
                     if(from_search)
-                        a(href="javascript:void(0);") Продлить!
+                        a(href="javascript:void(0);" class="noactive") Продлить!
                     else
-                        a(href="/extend?q="+query.q+"&token="+query.token+"&cid="+query.cid+"&stok="+query.stok) Продлить!
+                        a(class="active" href="/extend?q="+query.q+"&token="+query.token+"&cid="+query.cid+"&stok="+query.stok) Продлить!
 
 
-                h3 Вы можете оказать разработчику поддержку перечислив произвольную сумму удобным Вам способом:
+                h4 Вы можете оказать разработчику поддержку перечислив произвольную сумму удобным Вам способом:
                     table(border="0" width="100%" class="donate")
                         tbody
                             tr
@@ -82,13 +83,18 @@ body.page-main
                     br
                     h3 НАШИ ДРУЗЬЯ И ИНФОРМАЦИОННЫЕ ПАРТНЕРЫ
                     div
-                        img(src="/img/banner_4cheat.jpg")
-                    br
-                    div
-                        img(src="/img/banner_wotspeak.jpg")
+                        div.friend
+                            a(href="http://4cheat.ru/")
+                                img(src="/img/banner_4cheat.jpg")
+
+                        div.friend
+                            a(href="https://wotspeak.ru/")
+                                img(src="/img/banner_wotspeak.jpg")
+
+
                     br
                     h4 Обратная связь на форуме &nbsp;
-                        a(href="http://4cheat.ru/") 4cheat.ru
+                        a(href="http://4cheat.ru/showthread.php?t=26999") 4cheat.ru
 
 
             //div(class="banner-place border1 text-center col-md-3 col-lg-3")

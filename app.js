@@ -30,18 +30,19 @@ app.get('/extend', routes.extend)
 //app.get('/client', routes.client)
 app.post('/client', routes.client)
 
-app.get('/assembly', function(req, res) {
+/*app.get('/assembly', function(req, res) {
     var file = __dirname + '/public/docs/assembly.docx'
     var filename = path.basename(file)
     res.setHeader('Content-disposition', 'attachment; filename=' + filename)
     res.download(file)
+})*/
+
+app.get('/assembly', function(req, res) {
+    res.sendFile(path.join(__dirname + '/public/docs/assembly.pdf'))
 })
 
 app.get('/function_keys', function(req, res) {
-    /*var file = __dirname + '/public/docs/assembly.docx'
-    var filename = path.basename(file)
-    res.setHeader('Content-disposition', 'attachment; filename=' + filename)
-    res.download(file)*/
+    res.sendFile(path.join(__dirname + '/public/docs/function_keys.pdf'))
 })
 
 app.get('/intro', routesSettings.intro)
