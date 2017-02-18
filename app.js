@@ -113,3 +113,12 @@ new CronJob('00 00 00 * * *', function() {
 new CronJob('* * * * * *', function() {
     scheduler.cron2()
 }, null, true, 'Europe/Moscow')*/
+
+/*
+console.log(new Date(Date.now()))
+console.log(new Date(Date.now() + 1*6*60*60*1000))*/
+
+/*
+console.log(Date.now())
+console.log(Date.now() + 1*6*60*60*1000)
+console.log( new Date(Date.now() + Date.now() + 1*6*60*60*1000 - Date.now()) )*/

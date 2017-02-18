@@ -135,6 +135,7 @@ exports.extend = function (req, res, next) {
             if(client === null) {
                 client = new Client()
                 client.hash = q
+                client.expire = new Date(Date.now() + (parseInt(req.query.time) - Date.now()) + 1*24*60*60*1000 )
             }
             else {
                 client.expire = new Date(+new Date() + 1*24*60*60*1000)

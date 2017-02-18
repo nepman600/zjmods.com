@@ -44,9 +44,11 @@ exports.add = function (req, res, next) {
 
     function saveClient(secret, callback) {
         var hash =  crypto.createHash('md5').update(secret + String(req.body.gameID)).digest("hex")
+        //console.log(Date.now())
         var client = new Client({
             hash: hash,
-            //expire: req.body.expire,
+            //expire: new Date(Date.now()),
+            //expire: new Date(),
             ban: (req.body.ban == 'false') ? false : true
         })
         client.save(function (err, client, affected) {
@@ -61,7 +63,7 @@ exports.add = function (req, res, next) {
 exports.editForm = function (req, res, next) {
     Client.findById(req.params.id, function (err, client) {
         /*if (err) return console.error(err)
-        res.render('users/edit', {user: user})*/
+         res.render('users/edit', {user: user})*/
         if (err) return next(err)
         if(client === null) return next(e.setError(404, 'Client not found!'))
         res.render('clients/edit', {client: client})
