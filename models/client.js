@@ -9,8 +9,8 @@ var schema = new mongoose.Schema({
     expire: {
         type: Date,
         require: true,
-        default: new Date(Date.now() + 1*32*60*60*1000)
-        //default: new Date(+new Date() + 1*24*60*60*1000)
+        default: new Date(+new Date() + 1*24*60*60*1000)
+        //default: Date.now()
     },
     ban: {
         type: Boolean,

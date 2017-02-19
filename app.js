@@ -116,9 +116,22 @@ new CronJob('* * * * * *', function() {
 
 /*
 console.log(new Date(Date.now()))
-console.log(new Date(Date.now() + 1*6*60*60*1000))*/
+/*console.log(new Date(Date.now() + 1*6*60*60*1000))*/
+
 
 /*
-console.log(Date.now())
-console.log(Date.now() + 1*6*60*60*1000)
-console.log( new Date(Date.now() + Date.now() + 1*6*60*60*1000 - Date.now()) )*/
+ console.log(new Date(Date.now()))
+ console.log(new Date(Date.now() + 1*6*60*60*1000))*/
+
+/*console.log(new Date(+new Date() + 1*24*60*60*1000))
+ console.log(Date.now())
+ console.log(new Date())
+ console.log(new Date(Date.now()))*/
+
+/*2017-02-19T13:18:10.874Z
+ 1487423890876
+ 2017-02-18T13:18:10.877Z
+ 2017-02-18T13:18:10.877Z*/
+
+/*console.log(Date.now() + 1*6*60*60*1000)
+ console.log( new Date(Date.now() + Date.now() + 1*6*60*60*1000 - Date.now()) )*/

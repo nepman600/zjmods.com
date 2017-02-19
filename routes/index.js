@@ -4,18 +4,6 @@ var crypto = require('crypto')
 
 var Settings = require('../models/setting').Setting
 var Banners = require('../models/banner').Banner
-/*exports.frontend = function (req, res, next) {
- //res.sendFile(path.join(__dirname + '/index.html'))
- Settings.findOne({}, function (err, settings, next) {
- if (err) return next(err)
-
- //console.log(req.query)
- if(req.query.q)
- res.render('frontend', {settings: settings, query: req.query})
- else
- res.render('frontend', {settings: settings, from_search: true})
- })
- }*/
 
 exports.frontend = function (req, res, next) {
     async.parallel({
@@ -99,6 +87,7 @@ var Client = require('../models/client').Client
 exports.extend = function (req, res, next) {
     var host = req.get('host')
     var referer = req.header('Referer')
+
     if( (typeof referer == 'undefined') || (referer.indexOf(host) + 1) == 0 )
         return res.redirect('/')
 
@@ -108,11 +97,13 @@ exports.extend = function (req, res, next) {
         getSecret,
         compaireHash,
         extend,
-    ], function (err, result) {
+    ], function (err, expire) {
         if (err)
             return next(err)
-        else
-            res.render('extend', {expire: result})
+        else {
+            var synchro_date = new Date(+Date.now() + 1*27*60*60*1000)
+            res.render('extend', {expire: synchro_date})
+        }
     })
 
     function getSecret(callback) {
@@ -135,10 +126,11 @@ exports.extend = function (req, res, next) {
             if(client === null) {
                 client = new Client()
                 client.hash = q
-                client.expire = new Date(Date.now() + (parseInt(req.query.time) - Date.now()) + 1*24*60*60*1000 )
+                //client.expire = new Date(Date.now() + (parseInt(req.query.time) - Date.now()) + 1*32*60*60*1000 )
             }
             else {
                 client.expire = new Date(+new Date() + 1*24*60*60*1000)
+                //console.log(client.expire)
             }
 
             client.save(function(err, client){
@@ -208,20 +200,19 @@ exports.client = function (req, res, next) {
         getSecret,
         setResponse,
     ], function (err, result) {
-        if (!err) {
-            //res.json(result)
-            //var expire = result.expire.toISOString().split('T')[0] + ' ' + result.expire.getHours() + ':' + result.expire.getMinutes() + ':' + result.expire.getSeconds()
-            var year = "" + result.expire.getFullYear();
-            var month = "" + (result.expire.getMonth() + 1); if (month.length == 1) { month = "0" + month; }
-            var day = "" + result.expire.getDate(); if (day.length == 1) { day = "0" + day; }
-            var hour = "" + result.expire.getHours(); if (hour.length == 1) { hour = "0" + hour; }
-            var minute = "" + result.expire.getMinutes(); if (minute.length == 1) { minute = "0" + minute; }
-            var second = "" + result.expire.getSeconds(); if (second.length == 1) { second = "0" + second; }
-            var expire = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second
+        var year = "" + result.expire.getFullYear();
+        var month = "" + (result.expire.getMonth() + 1); if (month.length == 1) { month = "0" + month; }
+        var day = "" + result.expire.getDate(); if (day.length == 1) { day = "0" + day; }
+        var hour = "" + result.expire.getHours(); if (hour.length == 1) { hour = "0" + hour; }
+        var minute = "" + result.expire.getMinutes(); if (minute.length == 1) { minute = "0" + minute; }
+        var second = "" + result.expire.getSeconds(); if (second.length == 1) { second = "0" + second; }
+        var expire = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second
 
-            var hash = crypto.createHash('md5').update(result.q + 'cid=' + req.body.cid).digest("hex")
-            res.send(hash + ',' + expire + ',' + result.status)
-        }
+        var hash = crypto.createHash('md5').update(result.q + 'cid=' + req.body.cid).digest("hex")
+        //var delta  = parseInt(req.body.time) - Date.now()
+
+        //res.send(hash + ',' + expire + ',' + result.status + ',' + delta)
+        res.send(hash + ',' + expire + ',' + result.status + ',' + Date.now())
     })
 
     function getSecret(callback) {
@@ -236,17 +227,23 @@ exports.client = function (req, res, next) {
             callback(new Error())
 
         Client.findOne({ hash: req.body.q }, function (err, client) {
-            if(err || client === null) callback(new Error())
-            else {
-                var response = {}
-                var _random = Math.floor(Math.random() * (9 - 1)) + 9
+            var response = {}
+            var _random = Math.floor(Math.random() * (9 - 1)) + 9
 
+            if(err || client === null) {
+                //callback(new Error())
+                response.status = 2
+                response.expire = new Date(+new Date() + _random*24*60*60*1000)
+                response.q = crypto.createHash('md5').update(secret + String(ID) + 'hz').digest("hex")
+            }
+            else {
                 if(client.ban) {
                     response.status = 4
                     response.expire = new Date(+new Date() + _random*24*60*60*1000)
                     response.q = crypto.createHash('md5').update(secret + String(ID) + 'hz').digest("hex")
                 }
-                else if( Date.parse(client.expire) < Date.parse(Date.now()) ) {
+                //else if( Date.parse(client.expire) < Date.parse(Date.now()) ) {
+                else if( Date.parse(client.expire) < Date.now() ) {
                     response.status = 2
                     response.expire = new Date(+new Date() + _random*24*60*60*1000)
                     //console.log(Date.parse(response.expire))
@@ -256,10 +253,12 @@ exports.client = function (req, res, next) {
                     response.q = req.body.q
                     response.status = 2
                     response.expire = client.expire
+                    //response.expire  = new Date(Date.now() + parseInt(req.body.time) - Date.now())
+                    //response.expire = new Date(+Date.parse(client.expire) + 1*8*60*60*1000)
                 }
-
-                callback(err, response)
             }
+
+            callback(err, response)
         })
     }
 }

@@ -23,7 +23,10 @@ body.page-extend
 
         if(expire)
             div(class="text-center")
-                h1= 'Продлен до ' + expire
+                //input(type="text" class="form-control" value=expire)
+                //h1='Продлен до ' + expire
+                //h1 #{expire.toDateString()}
+                h1 #{expire.toUTCString()}
                 h2 Перезагрузите клиент WOT
         else
             div(class="text-center") 'Извините Вы не являетесь нашим клиентом!'

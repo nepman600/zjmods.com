@@ -1,4 +1,12 @@
 $(document).ready(function () {
+    /*console.log(window.history[-1])
+    console.log(document.referer)*/
+    if( window.location.href.indexOf('extend') > 0 ) {
+        //window.location.href = '/'
+        //window.location('/')
+        setTimeout(function() {window.location.href = '/';}, 10000)
+    }
+
     $('.banner-place').height($(window).height()-200)
     
     $('.download button').click(function() {
