@@ -48,7 +48,7 @@ exports.add = function (req, res, next) {
         var client = new Client({
             hash: hash,
             //expire: new Date(Date.now()),
-            //expire: new Date(),
+            expire: new Date(+new Date() + 1*24*60*60*1000),
             ban: (req.body.ban == 'false') ? false : true
         })
         client.save(function (err, client, affected) {
@@ -76,7 +76,7 @@ exports.edit = function (req, res, next) {
         if(client === null) return next(e.setError(404, 'Client not found!'))
 
         client.hash = req.body.hash
-        //client.expire = req.body.expire
+        client.expire = req.body.expire
         client.ban = (req.body.ban == 'false') ? false : true
         client.save(function (err, updatedClient) {
             if(err) return res.render('client/edit', {err: 'Ошибка!!!'})

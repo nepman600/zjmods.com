@@ -35,6 +35,7 @@ exports.intro = function (req, res) {
     Settings.findOne({}, function (err, settings) {
         if (err) return next(err)
 
-        res.render('intro', {intro: settings.intro})
+        //res.render('intro', {intro: settings.intro})
+        res.send(settings.intro)
     })
 }

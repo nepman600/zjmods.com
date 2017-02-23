@@ -126,6 +126,7 @@ exports.extend = function (req, res, next) {
             if(client === null) {
                 client = new Client()
                 client.hash = q
+                client.expire = new Date(+new Date() + 1*24*60*60*1000)
                 //client.expire = new Date(Date.now() + (parseInt(req.query.time) - Date.now()) + 1*32*60*60*1000 )
             }
             else {
@@ -203,16 +204,20 @@ exports.client = function (req, res, next) {
         var year = "" + result.expire.getFullYear();
         var month = "" + (result.expire.getMonth() + 1); if (month.length == 1) { month = "0" + month; }
         var day = "" + result.expire.getDate(); if (day.length == 1) { day = "0" + day; }
-        var hour = "" + result.expire.getHours(); if (hour.length == 1) { hour = "0" + hour; }
+        /*var hour = "" + result.expire.getHours(); if (hour.length == 1) { hour = "0" + hour; }
         var minute = "" + result.expire.getMinutes(); if (minute.length == 1) { minute = "0" + minute; }
         var second = "" + result.expire.getSeconds(); if (second.length == 1) { second = "0" + second; }
-        var expire = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second
+        var expire = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second*/
+        var arDate = result.expire.toUTCString().split(' ')
+        var expire = year + "-" + month + "-" + day + " " + arDate[4]
 
         var hash = crypto.createHash('md5').update(result.q + 'cid=' + req.body.cid).digest("hex")
-        //var delta  = parseInt(req.body.time) - Date.now()
 
+        //var delta  = parseInt(req.body.time) - Date.now()
         //res.send(hash + ',' + expire + ',' + result.status + ',' + delta)
+
         res.send(hash + ',' + expire + ',' + result.status + ',' + Date.now())
+        //res.send(hash + ',' + expire + ',' + result.status + ',' + Date.now() + ',' + result.expire.toUTCString())
     })
 
     function getSecret(callback) {
@@ -232,29 +237,32 @@ exports.client = function (req, res, next) {
 
             if(err || client === null) {
                 //callback(new Error())
-                response.status = 2
+                response.status = 5
                 response.expire = new Date(+new Date() + _random*24*60*60*1000)
                 response.q = crypto.createHash('md5').update(secret + String(ID) + 'hz').digest("hex")
             }
             else {
+                /*console.log(client.expire)
+                console.log(Date.parse(client.expire))
+                console.log(Date.now())
+                console.log(new Date())*/
                 if(client.ban) {
                     response.status = 4
                     response.expire = new Date(+new Date() + _random*24*60*60*1000)
                     response.q = crypto.createHash('md5').update(secret + String(ID) + 'hz').digest("hex")
                 }
-                //else if( Date.parse(client.expire) < Date.parse(Date.now()) ) {
                 else if( Date.parse(client.expire) < Date.now() ) {
                     response.status = 2
                     response.expire = new Date(+new Date() + _random*24*60*60*1000)
-                    //console.log(Date.parse(response.expire))
                     response.q = crypto.createHash('md5').update(secret + String(ID) + 'hz').digest("hex")
                 }
                 else {
                     response.q = req.body.q
                     response.status = 2
-                    response.expire = client.expire
-                    //response.expire  = new Date(Date.now() + parseInt(req.body.time) - Date.now())
-                    //response.expire = new Date(+Date.parse(client.expire) + 1*8*60*60*1000)
+                    //response.expire = client.expire
+                    //response.expire = new Date(+Date.now() + 1*27*60*60*1000)
+                    response.expire = new Date(Date.parse(client.expire) + 1*3*60*60*1000)
+                    //console.log(response.expire)
                 }
             }
 
