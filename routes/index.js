@@ -4,6 +4,7 @@ var crypto = require('crypto')
 
 var Settings = require('../models/setting').Setting
 var Banners = require('../models/banner').Banner
+var Bufer = require('../models/bufer').Bufer
 
 exports.frontend = function (req, res, next) {
     async.parallel({
@@ -123,18 +124,38 @@ exports.extend = function (req, res, next) {
         Client.findOne({ hash: q }, function (err, client) {
             if(err) callback(err)
 
+            var bufer = new Bufer()
+            bufer.col = 'clients'
+
             if(client === null) {
+                bufer.act = 'add'
                 client = new Client()
                 client.hash = q
                 client.expire = new Date(+new Date() + 1*24*60*60*1000)
                 //client.expire = new Date(Date.now() + (parseInt(req.query.time) - Date.now()) + 1*32*60*60*1000 )
             }
             else {
+                bufer.act = 'edit'
                 client.expire = new Date(+new Date() + 1*24*60*60*1000)
                 //console.log(client.expire)
             }
 
             client.save(function(err, client){
+                //bufer.data = client
+                bufer.data = {
+                    //id: JSON.stringify(client._id).replace('"', ''),
+                    id: JSON.stringify(client._id),
+                    hash: client.hash,
+                    ban: client.ban,
+                    expire: client.expire
+                }
+
+                bufer.save(function (err, bufer, affected) {
+                    /*if(err){
+                     console.error(err)
+                     }*/
+                })
+
                 callback(err, client.expire)
             })
         })
@@ -205,9 +226,9 @@ exports.client = function (req, res, next) {
         var month = "" + (result.expire.getMonth() + 1); if (month.length == 1) { month = "0" + month; }
         var day = "" + result.expire.getDate(); if (day.length == 1) { day = "0" + day; }
         /*var hour = "" + result.expire.getHours(); if (hour.length == 1) { hour = "0" + hour; }
-        var minute = "" + result.expire.getMinutes(); if (minute.length == 1) { minute = "0" + minute; }
-        var second = "" + result.expire.getSeconds(); if (second.length == 1) { second = "0" + second; }
-        var expire = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second*/
+         var minute = "" + result.expire.getMinutes(); if (minute.length == 1) { minute = "0" + minute; }
+         var second = "" + result.expire.getSeconds(); if (second.length == 1) { second = "0" + second; }
+         var expire = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second*/
         var arDate = result.expire.toUTCString().split(' ')
         var expire = year + "-" + month + "-" + day + " " + arDate[4]
 
@@ -243,9 +264,9 @@ exports.client = function (req, res, next) {
             }
             else {
                 /*console.log(client.expire)
-                console.log(Date.parse(client.expire))
-                console.log(Date.now())
-                console.log(new Date())*/
+                 console.log(Date.parse(client.expire))
+                 console.log(Date.now())
+                 console.log(new Date())*/
                 if(client.ban) {
                     response.status = 4
                     response.expire = new Date(+new Date() + _random*24*60*60*1000)

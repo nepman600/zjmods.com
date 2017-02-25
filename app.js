@@ -94,7 +94,7 @@ app.use(function (err, req, res, next) {
 
 
 /*app.listen(80, function () {
-    //console.log('Example app listening on port 80!')
+    console.log('Example app listening on port 80!')
 })*/
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
@@ -107,6 +107,15 @@ var CronJob = require('cron').CronJob
 new CronJob('00 00 00 * * *', function() {
 //new CronJob('* * * * * *', function() {
     scheduler.zeroClick()
+}, null, true, 'Europe/Moscow')
+
+
+//synchro_db
+//new CronJob('00 00 00 * * *', function() {
+new CronJob('00 00 * * * *', function() {
+    scheduler.synchro_db_add()
+    scheduler.synchro_db_edit()
+    scheduler.synchro_db_del()
 }, null, true, 'Europe/Moscow')
 
 /*

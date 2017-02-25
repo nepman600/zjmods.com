@@ -2,6 +2,7 @@ var crypto = require('crypto')
 var async = require('async')
 var Client = require('../models/client').Client
 var Settings = require('../models/setting').Setting
+var Bufer = require('../models/bufer').Bufer
 var e = require('../ext/error')
 
 exports.list = function (req, res, next) {
@@ -55,6 +56,26 @@ exports.add = function (req, res, next) {
             if(err){
                 callback(err)
             }
+
+            //bufer
+            var bufer = new Bufer({
+                col: 'clients',
+                act: 'add',
+                data: {
+                    //id: JSON.stringify(client._id).replace('"', ''),
+                    id: JSON.stringify(client._id),
+                    hash: client.hash,
+                    ban: client.ban,
+                    expire: client.expire
+                }
+            })
+
+            bufer.save(function (err, bufer, affected) {
+                if(err){
+                    console.error(err)
+                }
+            })
+
             callback(null)
         })
     }
@@ -81,6 +102,27 @@ exports.edit = function (req, res, next) {
         client.save(function (err, updatedClient) {
             if(err) return res.render('client/edit', {err: 'Ошибка!!!'})
             //if (err) return next(err)
+
+            //bufer
+            var bufer = new Bufer({
+                col: 'clients',
+                act: 'edit',
+                //data: updatedClient
+                data: {
+                    //id: JSON.stringify(updatedClient._id).replace('"', ''),
+                    id: JSON.stringify(updatedClient._id),
+                    hash: updatedClient.hash,
+                    ban: updatedClient.ban,
+                    expire: updatedClient.expire
+                }
+            })
+
+            bufer.save(function (err, bufer, affected) {
+                /*if(err){
+                 console.error(err)
+                 }*/
+            })
+
             res.redirect('/admin/clients')
         })
     })
@@ -96,7 +138,25 @@ exports.delete = function (req, res, next) {
             var response = {
                 message: "Client successfully deleted",
                 id: client._id
-            };
+            }
+
+            //bufer
+            var bufer = new Bufer({
+                col: 'clients',
+                act: 'del',
+                //data: client
+                data: {
+                    //id: JSON.stringify(client._id).replace('"', ''),
+                    id: JSON.stringify(client._id)
+                }
+            })
+
+            bufer.save(function (err, bufer, affected) {
+                /*if(err){
+                 console.error(err)
+                 }*/
+            })
+
             res.send(response);
         });
     })
