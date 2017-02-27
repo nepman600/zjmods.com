@@ -5,6 +5,19 @@ var bodyParser  = require('body-parser')
 var fileUpload = require('express-fileupload')
 //var cookieParser = require('cookie-parser')
 
+var winston = require('winston');
+var logger = new (winston.Logger)({
+    transports: [
+        new (winston.transports.Console)(),
+        //new (winston.transports.File)({ filename: 'somefile.log' })
+        new (winston.transports.File)({
+            name: 'error-file',
+            filename: 'error.log',
+            level: 'error'
+        })
+    ]
+})
+
 var auth = require('./auth')
 var routes = require('./routes')
 var routesUser = require('./routes/user')
@@ -102,6 +115,14 @@ app.listen(3000, function () {
 
 //cron
 var scheduler = require('./ext/scheduler')
+/*try {
+    scheduler = require('./ext/scheduler')
+}
+catch(e) {
+    throw new Error('произошла ошибка')
+    //console.log('Ошибка ' + e.name + ":" + e.message + "\n" + e.stack)
+}*/
+
 var CronJob = require('cron').CronJob
 
 new CronJob('00 00 00 * * *', function() {
@@ -111,14 +132,19 @@ new CronJob('00 00 00 * * *', function() {
 
 
 //synchro_db
-//new CronJob('00 00 00 * * *', function() {
-new CronJob('00 00 * * * *', function() {
-    scheduler.synchro_db_add()
-    scheduler.synchro_db_edit()
-    scheduler.synchro_db_del()
-}, null, true, 'Europe/Moscow')
+//new CronJob('00 00 00 * * *', function() { //00:00
+new CronJob('00 00 * * * *', function() { //hourly
+//new CronJob('* * * * * *', function() {
+    try {
+        scheduler.synchro_db_add()
+        scheduler.synchro_db_edit()
+        scheduler.synchro_db_del()
+    }
+    catch(e) {
+        //console.dir(e)
+        //console.log('Ошибка ' + e.name + ":" + e.message + "\n" + e.stack);
+        //throw new Error('произошла ошибка')
+        logger.error('Ошибка ' + e.name + ":" + e.message + "\n" + e.stack)
+    }
 
-/*
-new CronJob('* * * * * *', function() {
-    scheduler.cron2()
-}, null, true, 'Europe/Moscow')*/
+}, null, true, 'Europe/Moscow')
