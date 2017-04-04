@@ -42,6 +42,7 @@ app.get('/en', routes.frontendEn)
 app.get('/extend', routes.extend)
 //app.get('/client', routes.client)
 app.post('/client', routes.client)
+app.post('/payment', routes.payment)
 
 /*app.get('/assembly', function(req, res) {
     var file = __dirname + '/public/docs/assembly.docx'
@@ -96,6 +97,8 @@ app.post('/admin/clients/edit', routesClient.edit)
 app.delete('/admin/client/delete/:id', routesClient.delete)
 app.get('/admin/client/search/:id', routesClient.search)
 
+//app.get('/admin/payment', routesPayment.list)
+
 app.use(function (err, req, res, next) {
     res.status(err.status || 500)
     res.render('error', {
@@ -110,7 +113,7 @@ app.use(function (err, req, res, next) {
     console.log('Example app listening on port 80!')
 })*/
 app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
+    console.log('Example app listening on port 3000!')
 })
 
 //cron

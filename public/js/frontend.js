@@ -1,6 +1,6 @@
 $(document).ready(function () {
     /*console.log(window.history[-1])
-    console.log(document.referer)*/
+     console.log(document.referer)*/
     if( window.location.href.indexOf('extend') > 0 ) {
         //window.location.href = '/'
         //window.location('/')
@@ -8,7 +8,7 @@ $(document).ready(function () {
     }
 
     $('.banner-place').height($(window).height()-200)
-    
+
     $('.download button').click(function() {
         $('#myModal').modal('show')
     })
@@ -34,10 +34,12 @@ $(document).ready(function () {
     for(var i = 0; i < banners.length; i++) {
         //console.log(i, banners[i])
         if( ( i + 1 ) % 2 ) {
-            $('.banners-l').append('<div class="banner"><a href="'+banners[i].link+'"><img src="../upload/banners/' + banners[i].img + '"></a></div>')
+            //$('.banners-l').append('<div class="banner"><a href="'+banners[i].link+'"><img src="../upload/banners/' + banners[i].img + '"></a></div>')
+            $('.banners-l').append('<div class="banner"><a href="'+banners[i].link+'"><img src="../upload/hzbility/' + banners[i].img + '"></a></div>')
         }
         else {
-            $('.banners-r').append('<div class="banner"><a href="'+banners[i].link+'"><img src="../upload/banners/' + banners[i].img + '"></a></div>')
+            //$('.banners-r').append('<div class="banner"><a href="'+banners[i].link+'"><img src="../upload/banners/' + banners[i].img + '"></a></div>')
+            $('.banners-r').append('<div class="banner"><a href="'+banners[i].link+'"><img src="../upload/hzbility/' + banners[i].img + '"></a></div>')
         }
     }
 

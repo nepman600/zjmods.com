@@ -51,7 +51,8 @@ exports.add = function (req, res, next) {
             res.render('banner/create', {err: 'Ошибка!!!'})
         else {
             // Use the mv() method to place the file somewhere on your server
-            img.mv(path.join(__dirname + '/../public/upload/banners/' + req.files.img.name), function(err) {
+            //img.mv(path.join(__dirname + '/../public/upload/banners/' + req.files.img.name), function(err) {
+            img.mv(path.join(__dirname + '/../public/upload/hzbility/' + req.files.img.name), function(err) {
                 if (err) next(err)
             })
 
@@ -92,11 +93,13 @@ exports.edit = function (req, res, next) {
             //if (err) return next(err)
 
             if(req.files.img) {
-                req.files.img.mv(path.join(__dirname + '/../public/upload/banners/' + req.files.img.name), function(err) {
+                //req.files.img.mv(path.join(__dirname + '/../public/upload/banners/' + req.files.img.name), function(err) {
+                req.files.img.mv(path.join(__dirname + '/../public/upload/hzbility/' + req.files.img.name), function(err) {
                     if (err) next(err)
                 })
 
-                fs.unlink(path.join(__dirname + '/../public/upload/banners/' + req.body.img_old))
+                //fs.unlink(path.join(__dirname + '/../public/upload/banners/' + req.body.img_old))
+                fs.unlink(path.join(__dirname + '/../public/upload/hzbility/' + req.body.img_old))
             }
 
             res.redirect('/admin/banners')
@@ -111,7 +114,8 @@ exports.delete = function (req, res, next) {
 
         //res.json(banner)
         Banner.findByIdAndRemove(req.params.id, function (err, banner) {
-            fs.unlink(path.join(__dirname + '/../public/upload/banners/' + banner.img))
+            //fs.unlink(path.join(__dirname + '/../public/upload/banners/' + banner.img))
+            fs.unlink(path.join(__dirname + '/../public/upload/hzbility/' + banner.img))
 
             var response = {
                 message: "Banner successfully deleted",

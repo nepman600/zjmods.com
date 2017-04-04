@@ -151,5 +151,9 @@ if(BuferRemote != undefined) {
         })
     }
 }
-
+else {
+    exports.synchro_db_add = function() {}
+    exports.synchro_db_edit = function() {}
+    exports.synchro_db_del = function() {}
+}
 
