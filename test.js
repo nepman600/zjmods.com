@@ -1,23 +1,17 @@
-//synchro_db
-var Client = require('./models/client').Client
-var BuferRemote = require('./models/buferRemote').BuferRemote
-BuferRemote.find({}, function (err, clients) {
-    //if(err) console.error(err)
-    if (!err && clients != null) {
-        var dataDel = []
+var async = require('async')
 
-        for(var i = 0; i < clients.length; i++) {
-            var bufer = clients[i]._doc
-            var ID = bufer.data.id.replace('"', '').replace('"', '')
-            if(bufer.act == 'del') {
-                dataDel.push({_id: ID})
-            }
+async.series([
+        function(callback) {
+            // do some stuff ...
+            callback(null, 'one');
+        },
+        function(callback) {
+            // do some more stuff ...
+            callback(null, 'two');
         }
-
-        dataDel.forEach(function(item, i, dataEdit) {
-            Client.findByIdAndRemove(item._id, function (err, client) {})
-        })
-    }
-
-    BuferRemote.remove({}, function () {})
+    ],
+// optional callback
+function(err, results) {
+    console.log(results)
+    // results is now equal to ['one', 'two']
 })

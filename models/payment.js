@@ -6,12 +6,22 @@ var schema = new mongoose.Schema({
         require: true,
         unique: true
     },
+    nickname: {
+        type: String,
+        /*require: true,
+        unique: true*/
+    },
     date: {
         type: Date,
         require: true
     },
     region: {
         type: String,
+        require: true
+    },
+    count: {
+        type: Number,
+        default: 1,
         require: true
     }
 })

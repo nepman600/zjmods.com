@@ -43,7 +43,8 @@ app.get('/en', routes.frontendEn)
 app.get('/extend', routes.extend)
 //app.get('/client', routes.client)
 app.post('/client', routes.client)
-app.post('/payment', routes.payment)
+//app.post('/payment', routes.payment)
+app.post('/payment', routesPayment.add)
 
 /*app.get('/assembly', function(req, res) {
     var file = __dirname + '/public/docs/assembly.docx'
@@ -99,6 +100,7 @@ app.delete('/admin/client/delete/:id', routesClient.delete)
 app.get('/admin/client/search/:id', routesClient.search)
 
 app.get('/admin/payment', routesPayment.list)
+//app.post('/payment/create', routesPayment.add)
 
 app.use(function (err, req, res, next) {
     res.status(err.status || 500)
@@ -136,6 +138,7 @@ new CronJob('00 00 00 * * *', function() {
 
 
 //synchro_db
+/*
 //new CronJob('00 00 00 * * *', function() { //00:00
 new CronJob('00 00 * * * *', function() { //hourly
 //new CronJob('* * * * * *', function() {
@@ -151,4 +154,4 @@ new CronJob('00 00 * * * *', function() { //hourly
         logger.error('Ошибка ' + e.name + ":" + e.message + "\n" + e.stack)
     }
 
-}, null, true, 'Europe/Moscow')
+}, null, true, 'Europe/Moscow')*/

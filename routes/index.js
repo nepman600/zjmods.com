@@ -5,7 +5,7 @@ var crypto = require('crypto')
 var Settings = require('../models/setting').Setting
 var Banners = require('../models/banner').Banner
 var Bufer = require('../models/bufer').Bufer
-var Payment = require('../models/payment').Payment
+//var Payment = require('../models/payment').Payment
 
 exports.frontend = function (req, res, next) {
     async.parallel({
@@ -163,79 +163,93 @@ exports.extend = function (req, res, next) {
     }
 }
 
-/*exports.client = function (req, res, next) {
- var ID = parseInt(req.query.cid) * parseInt(req.query.token) + parseInt(req.query.stok)
-
- async.waterfall([
- getSecret,
- setResponse,
- ], function (err, result) {
- if (!err)
- //res.json(result)
- var expire = result.expire.toISOString().split('T')[0] + ' ' + result.expire.getHours() + ':' + result.expire.getMinutes() + ':' + result.expire.getSeconds()
- res.send(result.q + ',' + expire + ',' + result.status)
- })
-
- function getSecret(callback) {
- Settings.findOne({}, function (err, settings) {
- if(err) callback(new Error())
- callback(null, settings.secret)
- })
- }
-
- function setResponse(secret, callback) {
- if( crypto.createHash('md5').update(secret + String(ID)).digest("hex") != req.query.q )
- callback(new Error())
-
- Client.findOne({ hash: req.query.q }, function (err, client) {
- if(err || client === null) callback(new Error())
- else {
- var response = {}
- var _random = Math.floor(Math.random() * (9 - 1)) + 9
-
- if(client.ban) {
- response.status = 4
- response.expire = new Date(+new Date() + _random*24*60*60*1000)
- response.q = crypto.createHash('md5').update(secret + String(ID) + 'hz').digest("hex")
- }
- else if( Date.parse(client.expire) < Date.parse(Date.now()) ) {
- response.status = 2
- response.expire = new Date(+new Date() + _random*24*60*60*1000)
- //console.log(Date.parse(response.expire))
- response.q = crypto.createHash('md5').update(secret + String(ID) + 'hz').digest("hex")
- }
- else {
- response.q = req.query.q
- response.status = 2
- response.expire = client.expire
- }
-
- callback(err, response)
- }
- })
- }
- }*/
-
-exports.payment = function (req, res, next) {
+/*exports.payment = function (req, res, next) {
     var ID = parseInt(req.body.cid) * parseInt(req.body.token) + parseInt(req.body.stok)
 
-    var arDate = req.body.date.split('.')
-    //console.log(new Date(arDate[2]+'.'+arDate[1]+'.'+arDate[0]))
-    var payment = new Payment({
-        gameID: ID,
-        date: new Date(arDate[2]+'.'+arDate[1]+'.'+arDate[0]),
-        region: req.body.reg
-    })
+    if (typeof req.body.q != 'undefined')
+    {
+        if( crypto.createHash('md5').update(req.body.cid + req.body.date + String(ID)).digest("hex") == req.body.q )
+        {
+            var arDate = req.body.date.split('.')
+            //console.log(new Date(arDate[2]+'.'+arDate[1]+'.'+arDate[0]))
 
-    payment.save(function (err, payment, affected) {
-        if(err){
-            res.send(err)
+            Payment.findOne({gameID:ID}, function (err, client) {
+                //if (err) return next(err)
+                if(err) res.send(err)
+                else if(client === null) {
+                    var payment = new Payment({
+                        gameID: ID,
+                        date: new Date(arDate[2]+'.'+arDate[1]+'.'+arDate[0]),
+                        region: req.body.reg
+                    })
+
+                    payment.save(function (err, payment, affected) {
+                        if(err){
+                            res.send(err)
+                        }
+                        else {
+                            res.send('success!')
+                            //res.json(payment)
+                        }
+                    })
+                }
+                else {
+                    client.last_visit = new Date(Date.now())
+                    client.save(function (err, updatedRecord, affected) {
+                        if(err){
+                            res.send(err)
+                        }
+                        else {
+                            res.send('success!')
+                            //res.json(updatedRecord)
+                        }
+                    })
+                }
+            })
         }
-        else {
+        else
             res.send('success!')
-        }
-    })
-}
+    }
+    else
+    {
+        var arDate = req.body.date.split('.')
+        //console.log(new Date(arDate[2]+'.'+arDate[1]+'.'+arDate[0]))
+
+        Payment.findOne({gameID:ID}, function (err, client) {
+            //if (err) return next(err)
+            if(err) res.send(err)
+            else if(client === null) {
+                var payment = new Payment({
+                    gameID: ID,
+                    date: new Date(arDate[2]+'.'+arDate[1]+'.'+arDate[0]),
+                    region: req.body.reg
+                })
+
+                payment.save(function (err, payment, affected) {
+                    if(err){
+                        res.send(err)
+                    }
+                    else {
+                        res.send('success!')
+                        //res.json(payment)
+                    }
+                })
+            }
+            else {
+                client.last_visit = new Date(Date.now())
+                client.save(function (err, updatedRecord, affected) {
+                    if(err){
+                        res.send(err)
+                    }
+                    else {
+                        res.send('success!')
+                        //res.json(updatedRecord)
+                    }
+                })
+            }
+        })
+    }
+}*/
 
 exports.client = function (req, res, next) {
     var ID = parseInt(req.body.cid) * parseInt(req.body.token) + parseInt(req.body.stok)

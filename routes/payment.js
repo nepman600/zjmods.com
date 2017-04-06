@@ -1,6 +1,7 @@
-/*var crypto = require('crypto')
+var crypto = require('crypto')
 var async = require('async')
-var Settings = require('../models/setting').Setting*/
+var request = require('request')
+//var Settings = require('../models/setting').Setting
 var Payment = require('../models/payment').Payment
 var e = require('../ext/error')
 
@@ -21,174 +22,158 @@ exports.list = function (req, res, next) {
 }
 
 exports.add = function (req, res, next) {
-    async.waterfall([
-        getSecret,
-        saveClient,
-    ], function (err, result) {
-        if(err) {
-            next(err)
+    var ID = parseInt(req.body.cid) * parseInt(req.body.token) + parseInt(req.body.stok)
+
+    async.series([
+        getUserData,
+        addData
+    ], function (err, results) {
+        // Here, results is an array of the value from each function
+        //console.log(results);
+        if(err)
+            res.send(err)
+        else
+            res.send('success!')
+    });
+
+    function getUserData(callback) {
+        request.post(
+            'https://api.worldoftanks.ru/wot/account/info/?application_id=demo&account_id=' + ID,
+            //{ json: { key: 'value' } },
+            function (err, response, body) {
+                if (!err && response.statusCode == 200) {
+                    //console.dir(JSON.parse(body).data['202236'].nickname)
+                    callback(null, JSON.parse(body).data[ID].nickname)
+                }
+                else {
+                    callback(err)
+                }
+            }
+        )
+    }
+
+    function addData(nickname, callback) {
+        if (typeof req.body.q != 'undefined')
+        {
+            if( crypto.createHash('md5').update(req.body.cid + req.body.date + String(ID)).digest("hex") == req.body.q )
+            {
+                var arDate = req.body.date.split('.')
+                //console.log(new Date(arDate[2]+'.'+arDate[1]+'.'+arDate[0]))
+
+                Payment.findOne({gameID:ID}, function (err, client) {
+                    if(err) {
+                        callback(err)
+                        //res.send(err)
+                    }
+                    else if(client === null) {
+                        var payment = new Payment({
+                            gameID: ID,
+                            date: new Date(arDate[2]+'.'+arDate[1]+'.'+arDate[0]),
+                            region: req.body.reg,
+                            nickname: nickname
+                        })
+
+                        payment.save(function (err, payment, affected) {
+                            if(err){
+                                //res.send(err)
+                                callback(err)
+                            }
+                            else {
+                                callback('success!')
+                                //res.send('success!')
+                                //res.json(payment)
+                            }
+                        })
+                    }
+                    else {
+                        client.last_visit = new Date(Date.now())
+                        client.count = client.count +1
+                        client.save(function (err, updatedRecord, affected) {
+                            if(err){
+                                //res.send(err)
+                                callback(err)
+                            }
+                            else {
+                                callback('success!')
+                                //res.send('success!')
+                                //res.json(updatedRecord)
+                            }
+                        })
+                    }
+                })
+            }
+            else {
+                callback('success!')
+                //res.send('success!')
+            }
         }
-        else res.redirect('/admin/clients')
-    })
+        else
+        {
+            var arDate = req.body.date.split('.')
+            //console.log(new Date(arDate[2]+'.'+arDate[1]+'.'+arDate[0]))
 
-    function getSecret(callback) {
-        Settings.findOne({}, function (err, settings) {
-            if(err) callback(err)
-            callback(null, settings.secret)
-        })
+            Payment.findOne({gameID:ID}, function (err, client) {
+                //if (err) return next(err)
+                if(err) {
+                    //res.send(err)
+                    callback(err)
+                }
+                else if(client === null) {
+                    var payment = new Payment({
+                        gameID: ID,
+                        date: new Date(arDate[2]+'.'+arDate[1]+'.'+arDate[0]),
+                        region: req.body.reg,
+                        nickname: nickname
+                    })
+
+                    payment.save(function (err, payment, affected) {
+                        if(err){
+                            //res.send(err)
+                            callback(err)
+                        }
+                        else {
+                            callback('success!')
+                            //res.send('success!')
+                            //res.json(payment)
+                        }
+                    })
+                }
+                else {
+                    client.last_visit = new Date(Date.now())
+                    client.count = client.count +1
+                    client.save(function (err, updatedRecord, affected) {
+                        if(err){
+                            //res.send(err)
+                            callback(err)
+                        }
+                        else {
+                            callback('success!')
+                            //res.send('success!')
+                            //res.json(updatedRecord)
+                        }
+                    })
+                }
+            })
+        }
     }
-
-    function saveClient(secret, callback) {
-        var hash =  crypto.createHash('md5').update(secret + String(req.body.gameID)).digest("hex")
-        //console.log(Date.now())
-        var client = new Client({
-            hash: hash,
-            //expire: new Date(Date.now()),
-            expire: new Date(+new Date() + 1*24*60*60*1000),
-            ban: (req.body.ban == 'false') ? false : true
-        })
-        client.save(function (err, client, affected) {
-            if(err){
-                callback(err)
-            }
-
-            //bufer
-            var bufer = new Bufer({
-                col: 'clients',
-                act: 'add',
-                data: {
-                    //id: JSON.stringify(client._id).replace('"', ''),
-                    id: JSON.stringify(client._id),
-                    hash: client.hash,
-                    ban: client.ban,
-                    expire: client.expire
-                }
-            })
-
-            bufer.save(function (err, bufer, affected) {
-                if(err){
-                    console.error(err)
-                }
-            })
-
-            callback(null)
-        })
-    }
 }
 
-exports.editForm = function (req, res, next) {
-    Client.findById(req.params.id, function (err, client) {
-        /*if (err) return console.error(err)
-         res.render('users/edit', {user: user})*/
-        if (err) return next(err)
-        if(client === null) return next(e.setError(404, 'Client not found!'))
-        res.render('clients/edit', {client: client})
-    })
-}
+exports.csv = function (req, res, next) {
+    var json2csv = require('json2csv');
+    var fs = require('fs');
+    var fields = ['gameID', 'date'];
 
-exports.edit = function (req, res, next) {
-    Client.findById(req.body.clientID, function (err, client) {
-        if (err) return next(err)
-        if(client === null) return next(e.setError(404, 'Client not found!'))
+    Payment.find({}, function (err, payments) {
+        if (err) next(err)
 
-        client.hash = req.body.hash
-        client.expire = req.body.expire
-        client.ban = (req.body.ban == 'false') ? false : true
-        client.save(function (err, updatedClient) {
-            if(err) return res.render('client/edit', {err: 'Ошибка!!!'})
-            //if (err) return next(err)
+        var csv = json2csv({ data: payments, fields: fields });
 
-            //bufer
-            var bufer = new Bufer({
-                col: 'clients',
-                act: 'edit',
-                //data: updatedClient
-                data: {
-                    //id: JSON.stringify(updatedClient._id).replace('"', ''),
-                    id: JSON.stringify(updatedClient._id),
-                    hash: updatedClient.hash,
-                    ban: updatedClient.ban,
-                    expire: updatedClient.expire
-                }
-            })
-
-            bufer.save(function (err, bufer, affected) {
-                /*if(err){
-                 console.error(err)
-                 }*/
-            })
-
-            res.redirect('/admin/clients')
-        })
-    })
-}
-
-exports.delete = function (req, res, next) {
-    Client.findById(req.params.id, function (err, client) {
-        if (err) return next(err)
-        if(client === null) return next(e.setError(404, 'Client not found!'))
-
-        //res.json(client)
-        Client.findByIdAndRemove(req.params.id, function (err, client) {
-            var response = {
-                message: "Client successfully deleted",
-                id: client._id
-            }
-
-            //bufer
-            var bufer = new Bufer({
-                col: 'clients',
-                act: 'del',
-                //data: client
-                data: {
-                    //id: JSON.stringify(client._id).replace('"', ''),
-                    id: JSON.stringify(client._id)
-                }
-            })
-
-            bufer.save(function (err, bufer, affected) {
-                /*if(err){
-                 console.error(err)
-                 }*/
-            })
-
-            res.send(response);
+        fs.writeFile('file.csv', csv, function(err) {
+            if (err) throw err;
+                console.log('file saved');
         });
+
+        //console.log(data)
+        res.render('payment/index', {data: data})
     })
-}
-
-exports.search = function (req, res, next) {
-    //console.log('Cookies: ', req.cookies)
-    async.waterfall([
-        getSecret,
-        searchClient,
-    ], function (err, result) {
-        if (err)
-            next(err)
-        else {
-            res.render('clients/index', {data: result, searchID: req.params.id})
-        }
-    })
-
-    function getSecret(callback) {
-        Settings.findOne({}, function (err, settings) {
-            if(err) callback(err)
-            callback(null, settings.secret)
-        })
-    }
-
-    function searchClient(secret, callback) {
-        var hash =  crypto.createHash('md5').update(secret + String(req.params.id)).digest("hex")
-        Client.find({ hash: hash }, function (err, clients) {
-            if (err) callback(err)
-
-            //res.json(clients)
-            var data = []
-            for(var i = 0; i < clients.length; i++){
-                data[i] = {id: clients[i]._id, hash: clients[i].hash, expire: clients[i].expire, ban: clients[i].ban}
-            }
-            //console.log(data)
-            callback(null, data)
-        })
-    }
 }

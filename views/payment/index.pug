@@ -4,6 +4,8 @@ block content
     h1 Payments
     //p
         a(class="btn btn-success" href="/admin/clients/create") Create Client
+    p
+        a(class="btn btn-success" href="/admin/payments/csv") Export
     table(class="table table-striped table-bordered")
         thead
             tr
@@ -14,8 +16,9 @@ block content
                 //th.action-column &nbsp;
             tr.filters
                 td &nbsp;
-                td
+                //td
                     input(type="text" class="form-control" name="search_client" onkeypress="searchClient(event, this)" value=searchID)
+                td &nbsp;
                 td &nbsp;
                 //td &nbsp;
                 //td &nbsp;
