@@ -25,6 +25,7 @@ var routesSettings = require('./routes/setting')
 var routesBanner = require('./routes/banner')
 var routesPartner = require('./routes/partner')
 var routesClient = require('./routes/client')
+var routesPayment = require('./routes/payment')
 
 app.disable('x-powered-by')
 app.set('view engine', 'pug')
@@ -97,7 +98,7 @@ app.post('/admin/clients/edit', routesClient.edit)
 app.delete('/admin/client/delete/:id', routesClient.delete)
 app.get('/admin/client/search/:id', routesClient.search)
 
-//app.get('/admin/payment', routesPayment.list)
+app.get('/admin/payment', routesPayment.list)
 
 app.use(function (err, req, res, next) {
     res.status(err.status || 500)

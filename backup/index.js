@@ -13,3 +13,6 @@ backup({
         }
     }
 })
+
+//export to csv
+//mongoexport --db=db1 --collection=payments --type csv --fields gameID,date --out /home/web/www/payment.csv

@@ -1,33 +1,34 @@
 extends ../backend
 
 block content
-    h1 Clients
-    p
+    h1 Payments
+    //p
         a(class="btn btn-success" href="/admin/clients/create") Create Client
     table(class="table table-striped table-bordered")
         thead
             tr
                 th #
-                th Hash
+                th gameID
                 th Expire
-                th Ban
-                th.action-column &nbsp;
+                //th Ban
+                //th.action-column &nbsp;
             tr.filters
                 td &nbsp;
                 td
                     input(type="text" class="form-control" name="search_client" onkeypress="searchClient(event, this)" value=searchID)
                 td &nbsp;
-                td &nbsp;
-                td &nbsp;
+                //td &nbsp;
+                //td &nbsp;
         tbody
-            - var clients = data;
-            for client in clients
+            - var payments = data;
+            for payment in payments
                 tr
-                    td
-                    td=client.hash
-                    td #{client.expire.toUTCString()}
-                    td=client.ban
-                    td
+                    td=payment.num
+                    td=payment.gameID
+                    td #{payment.expire.toUTCString()}
+                    //td=payment.expire
+                    //td=client.ban
+                    //td
                         a(href="/admin/clients/edit/" + client.id)
                             span(class="glyphicon glyphicon-pencil") &nbsp;
                         a(onclick="delClient('" + client.id + "')")
